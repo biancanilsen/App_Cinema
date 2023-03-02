@@ -1,0 +1,33 @@
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { HourlyEntity } from "../hourly/hourly.entity";
+import { Classification } from "./enum/classification.enum";
+import { Type } from "./enum/type.enum";
+
+@Entity()
+export class MovieEntity {
+
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
+
+    @Column()
+    name: string;
+
+    @Column()
+    classification: Classification;
+
+    @Column()
+    type: Type;
+
+
+    @Column()
+    duration: string;
+
+    @Column()
+    room: number
+
+    @OneToMany(() => HourlyEntity, (hourly) => hourly.Movie, {
+        cascade: ['insert', 'update', 'remove'],
+        orphanedRowAction: 'delete',
+    })
+    Hourly: HourlyEntity[];
+}
