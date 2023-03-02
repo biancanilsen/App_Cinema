@@ -21,9 +21,9 @@ class HomePage extends StatelessWidget {
               style: TextStyle(color: Colors.white),
             ),
             centerTitle: true,
-            // background: Image.network(
-            //     "https://img.republicworld.com/republic-prod/stories/promolarge/xhdpi/3tijnb9mwaqp4y81_1600686404.jpeg",
-            //     fit: BoxFit.fitHeight),
+            background: Image.network(
+                "https://img.republicworld.com/republic-prod/stories/promolarge/xhdpi/3tijnb9mwaqp4y81_1600686404.jpeg",
+                fit: BoxFit.fitHeight),
           ),
         ),
         SliverList(
@@ -52,16 +52,128 @@ class HomePage extends StatelessWidget {
   List<Widget> ListeElemanlari() {
     return [
       Container(
-        margin: EdgeInsets.only(bottom: 5),
         height: 150,
-        color: Colors.white,
-        alignment: Alignment.center,
-        child: Text(
-          "Filme 1",
-          style: TextStyle(fontSize: 16),
-          textAlign: TextAlign.center,
+        child: Row(
+          children: [
+            Column(children: <Widget>[
+              Container(
+                // margin: const EdgeInsets.all(20),
+                child: const Image(
+                  width: 150,
+                  image:
+                      NetworkImage('https://www.tutorialkart.com/img/lion.jpg'),
+                ),
+              )
+            ]),
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(0.5),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Nome do filme:',
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        'Homem Aranha 2',
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(0.5),
+                  child: Row(
+                    children: [
+                      Text(
+                        "Classificação: ",
+                        style: TextStyle(fontSize: 12),
+                      ),
+                      // Spacer(
+                      //   flex: 1,
+                      // ),
+                      Text(
+                        "10+",
+                        style: TextStyle(fontSize: 12),
+                      )
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(0.5),
+                  child: Row(
+                    children: [
+                      Text(
+                        "Tipo: ",
+                        style: TextStyle(fontSize: 12),
+                      ),
+                      // Spacer(
+                      //   flex: 1,
+                      // ),
+                      Text(
+                        "Dublado",
+                        style: TextStyle(fontSize: 12),
+                      )
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(0.5),
+                  child: Row(
+                    children: [
+                      Text(
+                        "Duração: ",
+                        style: TextStyle(fontSize: 12),
+                      ),
+                      // Spacer(
+                      //   flex: 1,
+                      // ),
+                      Text(
+                        "153min",
+                        style: TextStyle(fontSize: 12),
+                      )
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(0.5),
+                  child: Row(
+                    children: [
+                      Text(
+                        "Sala: ",
+                        style: TextStyle(fontSize: 12),
+                      ),
+                      // Spacer(
+                      //   flex: 1,
+                      // ),
+                      Text(
+                        "4",
+                        style: TextStyle(fontSize: 12),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
+      // Container(
+      //   margin: EdgeInsets.only(bottom: 5),
+      //   height: 150,
+      //   color: Colors.white,
+      //   alignment: Alignment.center,
+      //   child: Text(
+      //     "Filme 1",
+      //     style: TextStyle(fontSize: 16),
+      //     textAlign: TextAlign.center,
+      //   ),
+      // ),
       Container(
         margin: EdgeInsets.only(bottom: 5),
         height: 150,
