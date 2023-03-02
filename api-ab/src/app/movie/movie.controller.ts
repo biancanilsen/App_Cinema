@@ -8,6 +8,7 @@ import {
     Post,
     HttpCode,
     HttpStatus,
+    Headers,
     Put
 } from '@nestjs/common';
 import { CreateMovieDto } from './dto/create-movie.dto';
@@ -24,14 +25,19 @@ export class MovieController {
         return await this.movieService.findAll();
     }
 
-    @Post()
-    async store(@Body() body: CreateMovieDto) {
-        return await this.movieService.store(body);
-    }
-
     @Get(':id')
     async show(@Param('id', new ParseUUIDPipe()) id: string) {
         return await this.movieService.findOneOrFail(id);
+    }
+
+    @Get('find/:name')
+    async findByCollaborator(@Param('name') name: string) {
+        return await this.movieService.findByName(name);
+    }
+
+    @Post()
+    async store(@Body() body: CreateMovieDto) {
+        return await this.movieService.store(body);
     }
 
     @Put(':id')

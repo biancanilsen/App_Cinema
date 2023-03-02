@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindManyOptions, Repository } from 'typeorm';
+import { FindManyOptions, Like, Repository } from 'typeorm';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { MovieEntity } from './movie.entity';
@@ -29,6 +29,14 @@ export class MovieService {
             return await this.movieRepository.findOne({ id });
         } catch {
             throw new NotFoundException();
+        }
+    }
+
+    async findByName(name: string) {
+        try {
+            return await this.movieRepository.query(`select * from movie_entity me where name ILIKE'%${name}%'`)
+        } catch (error) {
+            throw new NotFoundException(error.message);
         }
     }
 
