@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -22,13 +24,22 @@ class CustomScrollingWidget extends StatefulWidget {
 }
 
 class _CustomScrollingWidgetState extends State {
+  bool isAPIcallProcess = false;
+  bool hidePassword = true;
+  GlobalKey<FormState> globalFormat = GlobalKey<FormState>();
+  String? name;
+  String? classification;
+  Enum? type;
+  DateTime? duration;
+  Int? room;
+
   Widget _buildFixedList(Color color, String _text) {
     return Container(
       color: color,
       child: Center(
         child: Text(
           _text,
-          style: TextStyle(color: Colors.white, fontSize: 25),
+          style: const TextStyle(color: Colors.white, fontSize: 25),
         ),
       ),
     );
@@ -44,19 +55,19 @@ class _CustomScrollingWidgetState extends State {
             expandedHeight: 250.0,
             backgroundColor: Colors.redAccent[700],
             flexibleSpace: FlexibleSpaceBar(
-              title: Text('Cinema'),
+              title: const Text('Cinema'),
               centerTitle: true,
               background: Image.network(
-                  "https://img.freepik.com/vetores-gratis/modelo-de-exibicao-com-claquete-e-oculos_79603-1244.jpg",
-                  fit: BoxFit.fitHeight,
-                  height: 150),
+                "https://img.freepik.com/vetores-gratis/modelo-de-exibicao-com-claquete-e-oculos_79603-1244.jpg",
+                fit: BoxFit.fitHeight,
+                height: 150,
+              ),
             ),
           ),
-          // SizedBox(height: 20),
           SliverToBoxAdapter(
             child: Row(
               children: [
-                Expanded(
+                const Expanded(
                     child: TextField(
                   obscureText: true,
                   decoration: InputDecoration(
@@ -65,7 +76,7 @@ class _CustomScrollingWidgetState extends State {
                   ),
                 )),
                 Container(
-                  padding: EdgeInsets.all(3),
+                  padding: const EdgeInsets.all(3),
                   alignment: Alignment.center,
                   height: 75,
                   child: ElevatedButton.icon(
@@ -76,17 +87,15 @@ class _CustomScrollingWidgetState extends State {
                       elevation: 3,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5)),
-                      minimumSize: Size(30, 58),
+                      // minimumSize: const Size(30, 58),
                     ),
-                    onPressed: () {
-                      print("You pressed Icon Elevated Button");
-                    },
-                    icon: Icon(Icons.search),
-                    label: Text(""),
+                    onPressed: () {},
+                    icon: const Icon(Icons.search),
+                    label: const Text(""),
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.all(3),
+                  padding: const EdgeInsets.all(3),
                   alignment: Alignment.center,
                   height: 75,
                   child: ElevatedButton.icon(
@@ -97,13 +106,13 @@ class _CustomScrollingWidgetState extends State {
                       elevation: 3,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5)),
-                      minimumSize: Size(20, 58),
+                      // minimumSize: const Size(20, 58),
                     ),
                     onPressed: () {
-                      print("You pressed Icon Elevated Button");
+                      openDialogCreateMovie();
                     },
-                    icon: Icon(Icons.add), //icon data for elevated button
-                    label: Text(""), //label text
+                    icon: const Icon(Icons.add),
+                    label: const Text(""),
                   ),
                 )
               ],
@@ -117,25 +126,31 @@ class _CustomScrollingWidgetState extends State {
                   child: Row(
                     children: [
                       Column(children: <Widget>[
-                        Container(
-                          margin: const EdgeInsets.all(1),
-                          child: const Image(
-                            height: 290,
-                            image: NetworkImage(
-                                'https://www.sonypictures.com.br/sites/brazil/files/2022-03/key%20art_homem%20aranha%202.JPG'),
+                        InkWell(
+                          child: Container(
+                            margin: const EdgeInsets.all(1),
+                            child: const Image(
+                              height: 290,
+                              image: NetworkImage(
+                                  'https://www.sonypictures.com.br/sites/brazil/files/2022-03/key%20art_homem%20aranha%202.JPG'),
+                            ),
                           ),
-                        )
+                          onTap: () {
+                            openDialogDetails();
+                          },
+                        ),
                       ]),
                       Column(
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(2),
                             child: Row(
-                              children: [
+                              children: const [
                                 Text(
                                   'Filme:',
                                   overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
+                                  style: TextStyle(
+                                      color: Colors.red,
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold),
                                   textAlign: TextAlign.left,
@@ -143,7 +158,8 @@ class _CustomScrollingWidgetState extends State {
                                 Text(
                                   'Homem Aranha 2',
                                   overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
+                                  style: TextStyle(
+                                      color: Colors.red,
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold),
                                 )
@@ -151,43 +167,28 @@ class _CustomScrollingWidgetState extends State {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(2),
+                            padding: const EdgeInsets.all(0.5),
                             child: Row(
-                              children: [
+                              children: const [
                                 Text(
-                                  'Classificação:',
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  textAlign: TextAlign.left,
+                                  "Classificação: ",
+                                  style: TextStyle(fontSize: 16),
                                 ),
-                                Expanded(
-                                  child: Text(
-                                    '10+',
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    textAlign: TextAlign.right,
-                                  ),
-                                ),
+                                Text(
+                                  "10+",
+                                  style: TextStyle(fontSize: 16),
+                                )
                               ],
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(0.5),
                             child: Row(
-                              children: [
+                              children: const [
                                 Text(
                                   "Tipo: ",
                                   style: TextStyle(fontSize: 16),
                                 ),
-                                // Spacer(
-                                //   flex: 1,
-                                // ),
                                 Text(
                                   "Dublado",
                                   style: TextStyle(fontSize: 16),
@@ -198,14 +199,11 @@ class _CustomScrollingWidgetState extends State {
                           Padding(
                             padding: const EdgeInsets.all(0.5),
                             child: Row(
-                              children: [
+                              children: const [
                                 Text(
                                   "Duração: ",
                                   style: TextStyle(fontSize: 16),
                                 ),
-                                // Spacer(
-                                //   flex: 1,
-                                // ),
                                 Text(
                                   "153min",
                                   style: TextStyle(fontSize: 16),
@@ -216,14 +214,11 @@ class _CustomScrollingWidgetState extends State {
                           Padding(
                             padding: const EdgeInsets.all(0.5),
                             child: Row(
-                              children: [
+                              children: const [
                                 Text(
                                   "Sala: ",
                                   style: TextStyle(fontSize: 16),
                                 ),
-                                // Spacer(
-                                //   flex: 1,
-                                // ),
                                 Text(
                                   "4",
                                   style: TextStyle(fontSize: 16),
@@ -242,5 +237,116 @@ class _CustomScrollingWidgetState extends State {
         ],
       ),
     );
+  }
+
+  Future<void> openDialogDetails() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Sessões'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('Sessão 1.'),
+                Text('Sessão 2'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancelar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void closeDialogDetails() {
+    Navigator.of(context, rootNavigator: true).pop();
+  }
+
+  Future openDialogCreateMovie() => showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+              title: const Text("Cadastrar filme"),
+              content: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Row(
+                    children: const [
+                      Expanded(
+                        child: TextField(
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Nome do filme',
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: const [
+                      Expanded(
+                        child: TextField(
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Classificação',
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: TextField(
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Tipo',
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: const [
+                      Expanded(
+                        child: TextField(
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Duração',
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: TextField(
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Sala',
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  // ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  child: Text('Salvar'),
+                  onPressed: closeDialogCreateMovie,
+                )
+              ]));
+
+  void closeDialogCreateMovie() {
+    Navigator.of(context, rootNavigator: true).pop();
   }
 }
