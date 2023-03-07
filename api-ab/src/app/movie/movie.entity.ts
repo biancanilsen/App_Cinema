@@ -25,6 +25,9 @@ export class MovieEntity {
     @Column()
     room: number
 
+    @Column({ nullable: true })
+    path: string;
+
     @OneToMany(() => HourlyEntity, (hourly) => hourly.Movie, {
         cascade: ['insert', 'update', 'remove'],
         orphanedRowAction: 'delete',

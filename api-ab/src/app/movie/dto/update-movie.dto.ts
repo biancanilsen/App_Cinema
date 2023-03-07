@@ -19,4 +19,8 @@ export class UpdateMovieDto {
     @IsOptional()
     room: number
 
+
+    @IsOptional()
+    path: string;
+
 }

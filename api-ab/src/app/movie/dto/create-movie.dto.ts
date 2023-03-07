@@ -20,6 +20,9 @@ export class CreateMovieDto {
     @IsNotEmpty()
     duration: string;
 
+    @IsOptional()
+    path: string;
+
 
     @IsNotEmpty()
     room: number

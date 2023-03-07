@@ -9,8 +9,15 @@ import {
     HttpCode,
     HttpStatus,
     Headers,
-    Put
+    Put,
+    UploadedFile,
+    UseInterceptors,
+    Res
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { editFileName } from '../utils/file-upload-rename';
+import { imageFileFilter } from '../utils/photo-upload-validator';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { MovieService } from './movie.service';
@@ -35,9 +42,33 @@ export class MovieController {
         return await this.movieService.findByName(name);
     }
 
+    @Get('file/upload/:imgpath')
+    seeUploadedFile(@Param('imgpath') image, @Res() res) {
+        let url = image.split('.')
+        return res.sendFile(image, { root: '../files' });
+    }
+
     @Post()
     async store(@Body() body: CreateMovieDto) {
         return await this.movieService.store(body);
+    }
+
+    @Post('file/upload')
+    @UseInterceptors(
+        FileInterceptor('file', {
+            storage: diskStorage({
+                destination: '../files',
+                filename: editFileName,
+            }),
+            fileFilter: imageFileFilter,
+        }),
+    )
+    async uploadedFile(@UploadedFile() file) {
+        const response = {
+            originalname: file.originalname,
+            filename: file.filename,
+        };
+        return response;
     }
 
     @Put(':id')
@@ -53,6 +84,8 @@ export class MovieController {
     async destroy(@Param('id', new ParseUUIDPipe()) id: string) {
         await this.movieService.destroy(id);
     }
+
+
 
 }
 
