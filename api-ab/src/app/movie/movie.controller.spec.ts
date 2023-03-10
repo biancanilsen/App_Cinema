@@ -5,6 +5,8 @@ import { MovieService } from './movie.service';
 
 describe('MovieController', () => {
   let controller: MovieController;
+  let service: MovieService;
+
   const mockMoviesService = {
     findAll: jest.fn(),
     findOneOrFail: jest.fn(),
@@ -22,11 +24,30 @@ describe('MovieController', () => {
     }).overrideProvider(MovieService).useValue(mockMoviesService).compile();
 
     controller = module.get<MovieController>(MovieController);
+    service = module.get<MovieService>(MovieService);
 
   });
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
+  });
+
+  describe('findAll', () => {
+    it('should return an array of movie', async () => {
+      const movie = TesteMovie.validMovie();
+      const result = [movie, movie];
+      jest.spyOn(service, 'findAll').mockImplementation(async () => await result);
+      expect(await controller.index()).toBe(result);
+    });
+  });
+
+  describe('find by id', () => {
+    it('should return an hourly by id', async () => {
+      const movie = TesteMovie.validMovie();
+      const result = movie;
+      jest.spyOn(service, 'findOneOrFail').mockImplementation(async () => await result);
+      expect(await controller.show(movie.id)).toBe(result);
+    });
   });
 
 
@@ -47,6 +68,13 @@ describe('MovieController', () => {
     });
   });
 
-
+  describe('delete hourly', () => {
+    it('should return an hourly delete', async () => {
+      const movie = TesteMovie.validMovie();
+      const result = undefined;
+      jest.spyOn(service, 'destroy').mockImplementation(async () => await result);
+      expect(await controller.destroy(movie.id)).toBe(result);
+    });
+  });
 
 });

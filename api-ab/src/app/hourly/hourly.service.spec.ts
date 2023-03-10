@@ -84,7 +84,7 @@ describe('HourlyService', () => {
     it('should find a hourly by movie', async () => {
       const hourly = TesteHourly.validHourly();
       mockRepository.query.mockReturnValue(hourly);
-      const hourlyFound = await service.findByMovie('valid@gmail.com');
+      const hourlyFound = await service.findByMovie('0fc7cfa7-9749-4ffb-b7ce-21b9731e2ff3');
       expect(hourlyFound).toMatchObject({ Movie: hourlyFound.Movie });
       expect(mockRepository.query).toHaveBeenCalledTimes(1);
     });
