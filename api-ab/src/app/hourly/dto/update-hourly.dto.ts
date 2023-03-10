@@ -1,5 +1,5 @@
 import { IsOptional } from 'class-validator';
-import { MovieEntity } from 'src/app/movie/movie.entity';
+import { MovieEntity } from '../../movie/movie.entity';
 export class UpdateHourlyDto {
 
     @IsOptional()

@@ -16,8 +16,9 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { editFileName } from '../utils/file-upload-rename';
-import { imageFileFilter } from '../utils/photo-upload-validator';
+import { editFileName } from '../common/utils/file-upload-rename';
+import { imageFileFilter } from '../common/utils/photo-upload-validator';
+
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { MovieService } from './movie.service';

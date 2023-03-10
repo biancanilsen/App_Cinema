@@ -64,7 +64,13 @@ export class HourlyService {
         } catch {
             throw new NotFoundException();
         }
-        return await this.hourlyRepository.softDelete({ id });
+        const deleted = await this.hourlyRepository.softDelete({ id });
+
+        if (deleted) {
+            return true;
+        }
+
+        return false;
     }
 
 

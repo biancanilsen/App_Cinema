@@ -26,7 +26,7 @@ export class MovieService {
 
     async findOneOrFail(id: string) {
         try {
-            return await this.movieRepository.findOne({ id });
+            return await this.movieRepository.findOne(id);
         } catch {
             throw new NotFoundException();
         }
@@ -64,7 +64,12 @@ export class MovieService {
         } catch {
             throw new NotFoundException();
         }
-        return await this.movieRepository.softDelete({ id });
+        const deleted = await this.movieRepository.softDelete({ id });
+
+        if (deleted) {
+            return true;
+        }
+        return false;
     }
 
 
