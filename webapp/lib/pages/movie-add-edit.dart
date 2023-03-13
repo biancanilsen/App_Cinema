@@ -306,8 +306,14 @@ class _MovieAddEditState extends State<MovieAddEdit> {
                           fit: BoxFit.scaleDown,
                         ),
                       )
-                : Image.network(
-                    "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png"),
+                : SizedBox(
+                    child: Image.network(
+                      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png",
+                      width: 200,
+                      height: 200,
+                      fit: BoxFit.scaleDown,
+                    ),
+                  ),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           SizedBox(
             height: 35.0,

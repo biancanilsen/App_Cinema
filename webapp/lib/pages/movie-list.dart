@@ -46,23 +46,6 @@ class _MovieListState extends State<MovieList> {
     );
   }
 
-  // Widget loadMovies() {
-  //   return FutureBuilder(builder: (
-  //     BuildContext context,
-  //     AsyncSnapshot<List<MovieModel>?> model,
-  //   ) {
-  //     if (model.hasData) {
-  //       return movieList(model.data);
-  //     }
-  //     return movieList(model.data);
-  //     // return const Center(
-  //     //   child: CircularProgressIndicator(),
-  //     // );
-  //   }
-
-  //   );
-  // }
-
   Widget loadMovies() {
     return FutureBuilder(
       future: APIService.getMovies(),
@@ -111,6 +94,15 @@ class _MovieListState extends State<MovieList> {
               itemCount: movies.length,
               itemBuilder: (context, index) {
                 return MovieItem(
+                  // model: movies[index],
+                  // onDelete: (MovieModel model) {
+                  //   setState(() {
+                  //     isAPICallProcess = true;
+                  //   });
+
+                  //   APIService.deleteMovies(model.id).then((response) {
+                  //     setState(() {
+                  //       isAPICallProcess = false;
                   model: movies[index],
                   onDelete: (MovieModel model) {
                     setState(() {

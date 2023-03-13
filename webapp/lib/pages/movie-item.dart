@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
+import '../config.dart';
 import '../models/imageModel.dart';
 import '../models/movie-model.dart';
 import 'package:flutter/foundation.dart';
+
+import '../services/api-service.dart';
 
 class MovieItem extends StatelessWidget {
   // const MovieItem({Key? key, this.model, this.onDelete}) : super(key: key);
@@ -12,6 +15,7 @@ class MovieItem extends StatelessWidget {
   final MovieModel? model;
   final Function? onDelete;
   final ImageModel? image;
+  String movieId = "";
 
   MovieItem({
     Key? key,
@@ -113,6 +117,28 @@ class MovieItem extends StatelessWidget {
                       ),
                       onTap: () {
                         onDelete!(model);
+                        // APIService.deleteMovies(movieId).then(
+                        //   (response) {
+                        //     // setState(() {
+                        //     //   isAPICallProcess = false;
+                        //     // });
+
+                        //     if (response) {
+                        //       Navigator.pushNamedAndRemoveUntil(
+                        //           context, '/', (route) => false);
+                        //     } else {
+                        //       FormHelper.showSimpleAlertDialog(
+                        //         context,
+                        //         Config.appName,
+                        //         "Error Occure",
+                        //         "OK",
+                        //         () {
+                        //           Navigator.of(context).pop();
+                        //         },
+                        //       );
+                        //     }
+                        //   },
+                        // );
                       },
                     )
                   ],
