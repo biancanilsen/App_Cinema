@@ -75,7 +75,6 @@ class APIService {
     bool isEditMode,
     bool isFileSelected,
     String fileName,
-    ImageModel imagemodel,
   ) async {
     var movieURL = Config.movieURL;
 
