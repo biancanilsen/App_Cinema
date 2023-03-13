@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
+import '../models/imageModel.dart';
 import '../models/movie-model.dart';
 import 'package:flutter/foundation.dart';
 
@@ -10,11 +11,13 @@ class MovieItem extends StatelessWidget {
 
   final MovieModel? model;
   final Function? onDelete;
+  final ImageModel? image;
 
   MovieItem({
     Key? key,
     this.model,
     this.onDelete,
+    this.image,
   }) : super(key: key);
 
   @override
@@ -95,7 +98,11 @@ class MovieItem extends StatelessWidget {
                       onTap: () {
                         Navigator.of(context).pushNamed(
                           '/edit-movie',
-                          arguments: {'model': model},
+                          arguments: {
+                            'model': model,
+                            'image': image,
+                            //  "isEditMode": true
+                          },
                         );
                       },
                     ),

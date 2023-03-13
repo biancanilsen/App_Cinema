@@ -100,6 +100,11 @@ class APIService {
 
     var body = json.encode(data);
 
+    if (isEditMode) {
+      var response = await http.put(url,
+          headers: {"Content-Type": "application/json"}, body: body);
+      debugPrint('response: $response');
+    }
     var response = await http.post(url,
         headers: {"Content-Type": "application/json"}, body: body);
 

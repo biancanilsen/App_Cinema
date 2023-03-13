@@ -29,6 +29,7 @@ class _MovieAddEditState extends State<MovieAddEdit> {
   bool isImageSalected = false;
   ImageModel? imageModel;
   String fileName = "";
+  // String fileName = MovieModel.path.toString();
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +65,8 @@ class _MovieAddEditState extends State<MovieAddEdit> {
 
         movieModel = arguments["model"];
         imageModel = arguments["image"];
+        debugPrint('image $imageModel');
+        // isEditMode = arguments["isUpdate"];
         isEditMode = true;
         setState(() {});
       }
@@ -203,6 +206,7 @@ class _MovieAddEditState extends State<MovieAddEdit> {
           picPicker(isImageSalected, movieModel!.path ?? "", (file) {
             setState(() {
               movieModel!.path = file.path;
+              debugPrint('movieModel.path: $file.path');
               isImageSalected = true;
               APIService.uploadImage(imageModel!, movieModel!, isImageSalected)
                   .then((value) => fileName = value);
@@ -276,22 +280,8 @@ class _MovieAddEditState extends State<MovieAddEdit> {
 
     return Column(
       children: [
-        fileName.isNotEmpty
-            ? isFileSelected
-                ? Image.file(
-                    File(fileName),
-                    height: 200,
-                    width: 200,
-                  )
-                : SizedBox(
-                    child: Image.network(
-                      fileName,
-                      width: 200,
-                      height: 200,
-                      fit: BoxFit.scaleDown,
-                    ),
-                  )
-            : SizedBox(
+        isEditMode
+            ? SizedBox(
                 child: Image.network(
                   (movieModel!.path == null || movieModel!.path == "")
                       ? "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png"
@@ -300,7 +290,24 @@ class _MovieAddEditState extends State<MovieAddEdit> {
                   height: 230,
                   fit: BoxFit.scaleDown,
                 ),
-              ),
+              )
+            : fileName.isNotEmpty
+                ? isFileSelected
+                    ? Image.file(
+                        File(fileName),
+                        height: 200,
+                        width: 200,
+                      )
+                    : SizedBox(
+                        child: Image.network(
+                          fileName,
+                          width: 200,
+                          height: 200,
+                          fit: BoxFit.scaleDown,
+                        ),
+                      )
+                : Image.network(
+                    "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png"),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           SizedBox(
             height: 35.0,
