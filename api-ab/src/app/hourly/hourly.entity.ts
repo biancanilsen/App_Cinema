@@ -1,4 +1,4 @@
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { MovieEntity } from "../movie/movie.entity";
 
 @Entity()
@@ -15,4 +15,13 @@ export class HourlyEntity {
 
     @ManyToOne(() => MovieEntity, movie => movie.Hourly, { orphanedRowAction: 'delete' })
     Movie: MovieEntity;
+
+    @CreateDateColumn({ type: 'timestamptz' })
+    createdAt?: Date;
+
+    @UpdateDateColumn({ type: 'timestamptz' })
+    updatedAt?: Date;
+
+    @DeleteDateColumn({ type: 'timestamptz' })
+    deletedAt?: Date;
 }

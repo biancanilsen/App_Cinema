@@ -33,4 +33,13 @@ export class MovieEntity {
         orphanedRowAction: 'delete',
     })
     Hourly: HourlyEntity[];
+
+    @CreateDateColumn({ type: 'timestamptz' })
+    createdAt?: Date;
+
+    @UpdateDateColumn({ type: 'timestamptz' })
+    updatedAt?: Date;
+
+    @DeleteDateColumn({ type: 'timestamptz' })
+    deletedAt?: Date;
 }

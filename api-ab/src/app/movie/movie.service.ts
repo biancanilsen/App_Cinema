@@ -64,7 +64,7 @@ export class MovieService {
         } catch {
             throw new NotFoundException();
         }
-        const deleted = await this.movieRepository.softDelete({ id });
+        const deleted = await this.movieRepository.softRemove({ id });
 
         if (deleted) {
             return true;
