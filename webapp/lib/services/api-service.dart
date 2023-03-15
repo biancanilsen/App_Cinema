@@ -132,8 +132,10 @@ class APIService {
     Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
 
     var url = Uri.http(Config.apiURL, Config.movieURL + "/" + movieId);
+    debugPrint('url: $url');
 
     var response = await client.delete(url, headers: requestHeaders);
+    debugPrint('response: $response');
 
     if (response.statusCode == 200) {
       return true;

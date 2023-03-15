@@ -29,7 +29,18 @@ class _MovieAddEditState extends State<MovieAddEdit> {
   bool isImageSalected = false;
   ImageModel? imageModel;
   String fileName = "";
+  List<dynamic> countries = [];
+  String? countruId;
+  // String dropdownValue = 'One';
   // String fileName = MovieModel.path.toString();
+
+  @override
+  void initState() {
+    super.initState();
+
+    this.countries.add({"id": 1, "label": "India"});
+    this.countries.add({"id": 2, "label": "EUA"});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +48,51 @@ class _MovieAddEditState extends State<MovieAddEdit> {
       child: Scaffold(
         appBar: AppBar(
           // title: const Text("Dados"),
+          backgroundColor: Colors.red[900],
           elevation: 0,
         ),
+        bottomNavigationBar: BottomAppBar(
+          shape: const CircularNotchedRectangle(),
+          child: Container(height: 50.0),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            if (vaidateAndSave()) {
+              //API Service
+              setState(() {
+                isAPICallProcess = true;
+              });
+
+              APIService.saveMovies(
+                      movieModel!, isEditMode, isImageSalected, fileName)
+                  .then(
+                (response) {
+                  setState(() {
+                    isAPICallProcess = false;
+                  });
+
+                  if (response) {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, '/', (route) => false);
+                  } else {
+                    FormHelper.showSimpleAlertDialog(
+                      context,
+                      Config.appName,
+                      "Error Occure",
+                      "OK",
+                      () {
+                        Navigator.of(context).pop();
+                      },
+                    );
+                  }
+                },
+              );
+            }
+          },
+          child: const Icon(Icons.save),
+          backgroundColor: Colors.red[900],
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         backgroundColor: Colors.grey[200],
         body: ProgressHUD(
           inAsyncCall: isAPICallProcess,
@@ -53,26 +107,6 @@ class _MovieAddEditState extends State<MovieAddEdit> {
     );
   }
 
-  @override
-  void initState() {
-    super.initState();
-    movieModel = MovieModel();
-    imageModel = ImageModel();
-
-    Future.delayed(Duration.zero, () {
-      if (ModalRoute.of(context)?.settings.arguments != null) {
-        final Map arguments = ModalRoute.of(context)?.settings.arguments as Map;
-
-        movieModel = arguments["model"];
-        imageModel = arguments["image"];
-        debugPrint('image $imageModel');
-        // isEditMode = arguments["isUpdate"];
-        isEditMode = true;
-        setState(() {});
-      }
-    });
-  }
-
   Widget movieForm() {
     return SingleChildScrollView(
       child: Column(
@@ -80,7 +114,7 @@ class _MovieAddEditState extends State<MovieAddEdit> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(bottom: 10, top: 10),
+            padding: const EdgeInsets.only(bottom: 10, top: 30),
             child: FormHelper.inputFieldWidget(
               context,
               "name",
@@ -128,6 +162,90 @@ class _MovieAddEditState extends State<MovieAddEdit> {
               borderRadius: 10,
               showPrefixIcon: false,
             ),
+
+            // child: FormHelper.dropDownWidgetWithLabel(
+            //   context,
+            //   "Selecione uma classificação",
+            //   this.countruId,
+            //   this.countruId,
+            //   this.countries,
+            //   (onChanged{}),
+            //   onValidate)
+
+            // child: DropdownButtonFormField(
+            //   // value: 'item1',
+            //   hint: Text('Classificação'),
+            //   decoration: const InputDecoration(),
+            //   onChanged: (_) {},
+            //   dropdownColor: Colors.white,
+
+            //   items: [
+            //     DropdownMenuItem(
+            //       child: Text('Livre'),
+            //       value: '0',
+            //     ),
+            //     DropdownMenuItem(
+            //       child: Text('10+'),
+            //       value: '1',
+            //     ),
+            //     DropdownMenuItem(
+            //       child: Text('12+'),
+            //       value: '2',
+            //     ),
+            //     DropdownMenuItem(
+            //       child: Text('14+'),
+            //       value: '3',
+            //     ),
+            //     DropdownMenuItem(
+            //       child: Text('16+'),
+            //       value: '4',
+            //     ),
+            //     DropdownMenuItem(
+            //       child: Text('18+'),
+            //       value: '5',
+            //     ),
+            //   ],
+            // ),
+
+            // child: FormHelper.dropDownWidgetWithLabel(
+            //   context,
+            //   "Classificação",
+            //   "Classificação indicativa",
+            //   dropdownValue,
+            //   lstData,
+            //  (String? newValue) {
+            //       setState(() {
+            //         dropdownValue = newValue!;
+            //       });
+            //     },
+            //   (){
+
+            //   },
+            //   )
+
+            // child: FormHelper.inputFieldWidget(
+            //   context,
+            //   "classification",
+            //   "Classificação",
+            //   (onValidateVal) {
+            //     if (onValidateVal.isEmpty) {
+            //       return 'Movie classification can´t be empty';
+            //     }
+            //     return null;
+            //   },
+            //   (onSavedVal) {
+            //     movieModel!.classification = int.parse(onSavedVal);
+            //   },
+            //   initialValue: movieModel!.classification == null
+            //       ? ""
+            //       : movieModel!.classification.toString(),
+            //   borderColor: Colors.black,
+            //   borderFocusColor: Colors.black,
+            //   textColor: Colors.black,
+            //   hintColor: Colors.black.withOpacity(.7),
+            //   borderRadius: 10,
+            //   showPrefixIcon: false,
+            // ),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 10, top: 10),
@@ -179,7 +297,7 @@ class _MovieAddEditState extends State<MovieAddEdit> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 10, top: 10),
+            padding: const EdgeInsets.only(bottom: 5, top: 10),
             child: FormHelper.inputFieldWidget(
               context,
               "room",
@@ -215,47 +333,6 @@ class _MovieAddEditState extends State<MovieAddEdit> {
           const SizedBox(
             height: 20,
           ),
-          Center(
-            child: FormHelper.submitButton(
-              "Save",
-              () {
-                if (vaidateAndSave()) {
-                  //API Service
-                  setState(() {
-                    isAPICallProcess = true;
-                  });
-
-                  APIService.saveMovies(
-                          movieModel!, isEditMode, isImageSalected, fileName)
-                      .then(
-                    (response) {
-                      setState(() {
-                        isAPICallProcess = false;
-                      });
-
-                      if (response) {
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, '/', (route) => false);
-                      } else {
-                        FormHelper.showSimpleAlertDialog(
-                          context,
-                          Config.appName,
-                          "Error Occure",
-                          "OK",
-                          () {
-                            Navigator.of(context).pop();
-                          },
-                        );
-                      }
-                    },
-                  );
-                }
-              },
-              btnColor: HexColor("#283B71"),
-              borderColor: Colors.white,
-              borderRadius: 10,
-            ),
-          ),
         ],
       ),
     );
@@ -287,7 +364,7 @@ class _MovieAddEditState extends State<MovieAddEdit> {
                       ? "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png"
                       : "http://192.168.8.158:3000/movie/file/upload/" +
                           movieModel!.path!,
-                  height: 230,
+                  height: 290,
                   fit: BoxFit.scaleDown,
                 ),
               )

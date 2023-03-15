@@ -1,3 +1,5 @@
+// import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -9,13 +11,12 @@ import 'package:flutter/foundation.dart';
 
 import '../services/api-service.dart';
 
-class MovieItem extends StatelessWidget {
+class MovieItem extends StatefulWidget {
   // const MovieItem({Key? key, this.model, this.onDelete}) : super(key: key);
 
   final MovieModel? model;
   final Function? onDelete;
   final ImageModel? image;
-  String movieId = "";
 
   MovieItem({
     Key? key,
@@ -23,6 +24,15 @@ class MovieItem extends StatelessWidget {
     this.onDelete,
     this.image,
   }) : super(key: key);
+
+  @override
+  State<MovieItem> createState() => _MovieItemState();
+}
+
+class _MovieItemState extends State<MovieItem> {
+  String movieId = "";
+
+  String dropdownValue = 'One';
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +60,10 @@ class MovieItem extends StatelessWidget {
           margin: const EdgeInsets.all(10),
           // child: Image.file(File(model?.path!)),
           child: Image.network(
-            (model!.path == null || model!.path == "")
+            (widget.model!.path == null || widget.model!.path == "")
                 ? "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png"
-                : "http://192.168.8.158:3000/movie/file/upload/" + model!.path!,
+                : "http://192.168.8.158:3000/movie/file/upload/" +
+                    widget.model!.path!,
             height: 230,
             fit: BoxFit.scaleDown,
           ),
@@ -64,30 +75,58 @@ class MovieItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                model!.name!,
+                "${widget.model!.name}",
                 style: const TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 10),
+              // DropdownButton<String>(
+              //   value: dropdownValue,
+              //   icon: const Icon(Icons.menu),
+              //   style: const TextStyle(color: Colors.white),
+              //   underline: Container(
+              //     height: 2,
+              //     color: Colors.white,
+              //   ),
+              //   onChanged: (String? newValue) {
+              //     setState(() {
+              //       dropdownValue = newValue!;
+              //     });
+              //   },
+              //   items: const [
+              //     DropdownMenuItem<String>(
+              //       value: 'One',
+              //       child: Text('One'),
+              //     ),
+              //     DropdownMenuItem<String>(
+              //       value: 'Two',
+              //       child: Text('Two'),
+              //     ),
+              //     DropdownMenuItem<String>(
+              //       value: 'Three',
+              //       child: Text('Three'),
+              //     ),
+              //   ],
+              // ),
               Text(
-                "${model!.classification}",
+                "Classificação: ${widget.model!.classification}",
                 style: TextStyle(color: Colors.black),
               ),
               const SizedBox(height: 10),
               Text(
-                "${model!.type}",
+                "Tipo: ${widget.model!.type}",
                 style: TextStyle(color: Colors.black),
               ),
               const SizedBox(height: 10),
               Text(
-                "${model!.duration}",
+                "Duração: ${widget.model!.duration}",
                 style: TextStyle(color: Colors.black),
               ),
               const SizedBox(height: 10),
               Text(
-                "${model!.room}",
+                "Sala: ${widget.model!.room}",
                 style: TextStyle(color: Colors.black),
               ),
               const SizedBox(height: 10),
@@ -103,8 +142,8 @@ class MovieItem extends StatelessWidget {
                         Navigator.of(context).pushNamed(
                           '/edit-movie',
                           arguments: {
-                            'model': model,
-                            'image': image,
+                            'model': widget.model,
+                            'image': widget.image,
                             //  "isEditMode": true
                           },
                         );
@@ -112,33 +151,11 @@ class MovieItem extends StatelessWidget {
                     ),
                     GestureDetector(
                       child: const Icon(
-                        Icons.delete,
+                        Icons.delete_sweep,
                         color: Colors.red,
                       ),
                       onTap: () {
-                        onDelete!(model);
-                        // APIService.deleteMovies(movieId).then(
-                        //   (response) {
-                        //     // setState(() {
-                        //     //   isAPICallProcess = false;
-                        //     // });
-
-                        //     if (response) {
-                        //       Navigator.pushNamedAndRemoveUntil(
-                        //           context, '/', (route) => false);
-                        //     } else {
-                        //       FormHelper.showSimpleAlertDialog(
-                        //         context,
-                        //         Config.appName,
-                        //         "Error Occure",
-                        //         "OK",
-                        //         () {
-                        //           Navigator.of(context).pop();
-                        //         },
-                        //       );
-                        //     }
-                        //   },
-                        // );
+                        widget.onDelete!(widget.model);
                       },
                     )
                   ],

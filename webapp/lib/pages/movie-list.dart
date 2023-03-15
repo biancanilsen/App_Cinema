@@ -35,6 +35,8 @@ class _MovieListState extends State<MovieList> {
       appBar: AppBar(
         title: const Text("Cinema"),
         elevation: 0,
+        centerTitle: true,
+        backgroundColor: Colors.red[900],
       ),
       backgroundColor: Colors.grey[200],
       body: ProgressHUD(
@@ -43,6 +45,18 @@ class _MovieListState extends State<MovieList> {
         opacity: .3,
         key: UniqueKey(),
       ),
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        child: Container(height: 50.0),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, "/add-movie");
+        },
+        child: const Icon(Icons.add),
+        backgroundColor: Colors.red[900],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 
@@ -73,20 +87,20 @@ class _MovieListState extends State<MovieList> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
           Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: Colors.green,
-                onPrimary: Colors.white,
-                shadowColor: Colors.greenAccent,
-                elevation: 3,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5)),
-              ),
-              onPressed: () {
-                Navigator.pushNamed(context, "/add-movie");
-              },
-              child: const Text("Add Movie"),
-            ),
+            // ElevatedButton(
+            //   style: ElevatedButton.styleFrom(
+            //     primary: Colors.green,
+            //     onPrimary: Colors.white,
+            //     shadowColor: Colors.greenAccent,
+            //     elevation: 3,
+            //     shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(5)),
+            //   ),
+            //   onPressed: () {
+            //     Navigator.pushNamed(context, "/add-movie");
+            //   },
+            //   child: const Text("Add Movie"),
+            // ),
             ListView.builder(
               shrinkWrap: true,
               physics: const ClampingScrollPhysics(),
