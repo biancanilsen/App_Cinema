@@ -28,7 +28,7 @@ class MovieModel {
   });
 
   MovieModel.fromJson(Map<String, dynamic> json) {
-    ImageModel? imageModel;
+    // ImageModel? imageModel;
     id = json["id"];
     name = json["name"];
     classification = json["classification"];
@@ -37,7 +37,7 @@ class MovieModel {
     room = json["room"];
     //passar o image model aqui
     // path = json["path"];
-    path = json[ImageModel];
+    path = json["path"];
   }
 
   Map<String, dynamic> toJson() {
@@ -48,7 +48,7 @@ class MovieModel {
     _data["type"] = type;
     _data["duration"] = duration;
     _data["room"] = room;
-    _data["path"] = ImageModel;
+    _data["path"] = path;
     // /ver sobre correlação no flutter
 
     //aqui retornar o imagemodel from json:

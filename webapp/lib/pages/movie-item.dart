@@ -16,13 +16,11 @@ class MovieItem extends StatefulWidget {
 
   final MovieModel? model;
   final Function? onDelete;
-  final ImageModel? image;
 
   MovieItem({
     Key? key,
     this.model,
     this.onDelete,
-    this.image,
   }) : super(key: key);
 
   @override
@@ -62,8 +60,7 @@ class _MovieItemState extends State<MovieItem> {
           child: Image.network(
             (widget.model!.path == null || widget.model!.path == "")
                 ? "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png"
-                : "http://192.168.8.158:3000/movie/file/upload/" +
-                    widget.model!.path!,
+                : "http://192.168.8.42:3000/movie/file/upload/${widget.model!.path!}",
             height: 230,
             fit: BoxFit.scaleDown,
           ),
@@ -142,9 +139,7 @@ class _MovieItemState extends State<MovieItem> {
                         Navigator.of(context).pushNamed(
                           '/edit-movie',
                           arguments: {
-                            'model': widget.model,
-                            'image': widget.image,
-                            //  "isEditMode": true
+                            'model': widget.model //  "isEditMode": true
                           },
                         );
                       },

@@ -20,8 +20,6 @@ class MovieList extends StatefulWidget {
 }
 
 class _MovieListState extends State<MovieList> {
-  // List<MovieModel> movies = List<MovieModel>.empty(growable: true);
-
   bool isAPICallProcess = false;
 
   @override

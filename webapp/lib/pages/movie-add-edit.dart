@@ -25,18 +25,28 @@ class _MovieAddEditState extends State<MovieAddEdit> {
   static final GlobalKey<FormState> globalKey = GlobalKey<FormState>();
   bool isAPICallProcess = false;
   MovieModel? movieModel;
+
   bool isEditMode = false;
   bool isImageSalected = false;
-  ImageModel? imageModel;
+  bool newImage = false;
   String fileName = "";
   List<dynamic> countries = [];
   String? countruId;
   // String dropdownValue = 'One';
-  // String fileName = MovieModel.path.toString();
 
   @override
   void initState() {
     super.initState();
+    movieModel = MovieModel();
+
+    Future.delayed(Duration.zero, () {
+      if (ModalRoute.of(context)?.settings.arguments != null) {
+        final Map arguments = ModalRoute.of(context)?.settings.arguments as Map;
+        movieModel = arguments["model"];
+        isEditMode = true;
+        setState(() {});
+      }
+    });
 
     this.countries.add({"id": 1, "label": "India"});
     this.countries.add({"id": 2, "label": "EUA"});
@@ -56,7 +66,7 @@ class _MovieAddEditState extends State<MovieAddEdit> {
           child: Container(height: 50.0),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {
+          onPressed: () async {
             if (vaidateAndSave()) {
               //API Service
               setState(() {
@@ -117,6 +127,7 @@ class _MovieAddEditState extends State<MovieAddEdit> {
             padding: const EdgeInsets.only(bottom: 10, top: 30),
             child: FormHelper.inputFieldWidget(
               context,
+              initialValue: movieModel?.name ?? "",
               "name",
               "Nome do Filme",
               (onValidateVal) {
@@ -126,9 +137,8 @@ class _MovieAddEditState extends State<MovieAddEdit> {
                 return null;
               },
               (onSavedVal) => {
-                movieModel!.name = onSavedVal,
+                movieModel?.name = onSavedVal,
               },
-              initialValue: movieModel!.name ?? "",
               borderColor: Colors.black,
               borderFocusColor: Colors.black,
               textColor: Colors.black,
@@ -150,9 +160,9 @@ class _MovieAddEditState extends State<MovieAddEdit> {
                 return null;
               },
               (onSavedVal) {
-                movieModel!.classification = int.parse(onSavedVal);
+                movieModel?.classification = int.parse(onSavedVal);
               },
-              initialValue: movieModel!.classification == null
+              initialValue: movieModel?.classification == null
                   ? ""
                   : movieModel!.classification.toString(),
               borderColor: Colors.black,
@@ -260,10 +270,10 @@ class _MovieAddEditState extends State<MovieAddEdit> {
                 return null;
               },
               (onSavedVal) => {
-                movieModel!.type = int.parse(onSavedVal),
+                movieModel?.type = int.parse(onSavedVal),
               },
               initialValue:
-                  movieModel!.type == null ? "" : movieModel!.type.toString(),
+                  movieModel?.type == null ? "" : movieModel!.type.toString(),
               borderColor: Colors.black,
               borderFocusColor: Colors.black,
               textColor: Colors.black,
@@ -285,9 +295,9 @@ class _MovieAddEditState extends State<MovieAddEdit> {
                 return null;
               },
               (onSavedVal) => {
-                movieModel!.duration = onSavedVal,
+                movieModel?.duration = onSavedVal,
               },
-              initialValue: movieModel!.duration ?? "",
+              initialValue: movieModel?.duration ?? "",
               borderColor: Colors.black,
               borderFocusColor: Colors.black,
               textColor: Colors.black,
@@ -309,10 +319,10 @@ class _MovieAddEditState extends State<MovieAddEdit> {
                 return null;
               },
               (onSavedVal) => {
-                movieModel!.room = int.parse(onSavedVal),
+                movieModel?.room = int.parse(onSavedVal),
               },
               initialValue:
-                  movieModel!.room == null ? "" : movieModel!.room.toString(),
+                  movieModel?.room == null ? "" : movieModel!.room.toString(),
               borderColor: Colors.black,
               borderFocusColor: Colors.black,
               textColor: Colors.black,
@@ -321,13 +331,15 @@ class _MovieAddEditState extends State<MovieAddEdit> {
               showPrefixIcon: false,
             ),
           ),
-          picPicker(isImageSalected, movieModel!.path ?? "", (file) {
+          picPicker(isImageSalected, movieModel?.path ?? "", (file) {
             setState(() {
-              movieModel!.path = file.path;
-              debugPrint('movieModel.path: $file.path');
+              movieModel?.path = file.path;
               isImageSalected = true;
-              APIService.uploadImage(imageModel!, movieModel!, isImageSalected)
+              APIService.uploadImage(movieModel!, isImageSalected)
                   .then((value) => fileName = value);
+              if (fileName != null) {
+                newImage = true;
+              }
             });
           }),
           const SizedBox(
@@ -357,40 +369,32 @@ class _MovieAddEditState extends State<MovieAddEdit> {
 
     return Column(
       children: [
-        isEditMode
-            ? SizedBox(
-                child: Image.network(
-                  (movieModel!.path == null || movieModel!.path == "")
-                      ? "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png"
-                      : "http://192.168.8.158:3000/movie/file/upload/" +
-                          movieModel!.path!,
-                  height: 290,
-                  fit: BoxFit.scaleDown,
-                ),
-              )
-            : fileName.isNotEmpty
-                ? isFileSelected
-                    ? Image.file(
-                        File(fileName),
-                        height: 200,
-                        width: 200,
-                      )
-                    : SizedBox(
-                        child: Image.network(
-                          fileName,
-                          width: 200,
-                          height: 200,
-                          fit: BoxFit.scaleDown,
-                        ),
-                      )
+        fileName.isNotEmpty
+            ? isFileSelected
+                ? Image.file(
+                    File(fileName),
+                    height: 200,
+                    width: 200,
+                  )
                 : SizedBox(
                     child: Image.network(
-                      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png",
+                      (isEditMode == true && movieModel!.path == "")
+                          ? fileName
+                          : "http://192.168.8.42:3000/movie/file/upload/${movieModel!.path!}",
                       width: 200,
                       height: 200,
                       fit: BoxFit.scaleDown,
                     ),
-                  ),
+                  )
+            : SizedBox(
+                child: Image.network(
+                  (movieModel!.path == null || movieModel!.path == "")
+                      ? "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png"
+                      : "http://192.168.8.42:3000/movie/file/upload/${movieModel!.path!}",
+                  height: 230,
+                  fit: BoxFit.scaleDown,
+                ),
+              ),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           SizedBox(
             height: 35.0,

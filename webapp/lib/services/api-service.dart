@@ -30,7 +30,6 @@ class APIService {
   }
 
   static Future<String> uploadImage(
-    ImageModel imageModel,
     MovieModel model,
     bool isFileSelected,
   ) async {
@@ -57,14 +56,12 @@ class APIService {
     if (response.statusCode == 201) {
       String fileNameResponse = response.body;
 
-      imageModel = ImageModel.fromJson(jsonDecode(fileNameResponse));
+      ImageModel imageModel = ImageModel.fromJson(jsonDecode(fileNameResponse));
 
-      debugPrint('imageModel $imageModel');
-      // var body = imageModel.filename;
-      // var body = jsonEncode(response.body);
-      // model.path = body.filename.toString();
+      var fileName = imageModel.filename.toString();
+      print(fileName);
 
-      return imageModel.filename.toString();
+      return fileName;
     } else {
       return "";
     }
@@ -81,45 +78,49 @@ class APIService {
     if (isEditMode) {
       movieURL = movieURL + "/" + model.id.toString();
     }
-
+    debugPrint(' $isFileSelected');
     var url = Uri.http(Config.apiURL, movieURL);
     debugPrint('url: $url');
 
     var requestMethod = isEditMode ? "PUT" : "POST";
 
-    Map data = {
-      'name': model.name,
-      'classification': model.classification,
-      'type': model.type,
-      'duration': model.duration,
-      'room': model.room,
-      // 'path': imageModel.filename.toString(),
-      'path': fileName,
-      // tentar json encode para retornar a ser string
-    };
+    Map data;
+    var body;
+    var response;
 
-    var body = json.encode(data);
-
-    if (isEditMode) {
-      var response = await http.put(url,
-          headers: {"Content-Type": "application/json"}, body: body);
-      debugPrint('response: $response');
+    if (isFileSelected == false) {
+      data = {
+        'name': model.name,
+        'classification': model.classification,
+        'type': model.type,
+        'duration': model.duration,
+        'room': model.room,
+        'path': model.path,
+      };
+      body = json.encode(data);
+    } else {
+      data = {
+        'name': model.name,
+        'classification': model.classification,
+        'type': model.type,
+        'duration': model.duration,
+        'room': model.room,
+        'path': fileName,
+      };
+      body = json.encode(data);
     }
-    var response = await http.post(url,
-        headers: {"Content-Type": "application/json"}, body: body);
 
-    // if (model.path != null && isFileSelected) {
-    //   http.MultipartFile multipartFile = await http.MultipartFile.fromPath(
-    //     'path',
-    //     model.path!,
-    //   );
-
-    // request.files.add(multipartFile);
-    // }
+    if (isEditMode == true) {
+      response = await http.put(url,
+          headers: {"Content-Type": "application/json"}, body: body);
+    } else {
+      response = await http.post(url,
+          headers: {"Content-Type": "application/json"}, body: body);
+    }
 
     debugPrint('response $response');
 
-    if (response.statusCode == 201) {
+    if (response.statusCode == 201 || response.statusCode == 200) {
       debugPrint('response $response.statusCode');
       return true;
     } else {
