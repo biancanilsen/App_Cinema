@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/pages/movie-add-edit.dart';
-import 'package:flutter_application/pages/movie-list.dart';
+import 'package:webapp/pages/movie-add-edit.dart';
+import 'package:webapp/pages/movie-list.dart';
 
 void main() {
   runApp(const MyApp());

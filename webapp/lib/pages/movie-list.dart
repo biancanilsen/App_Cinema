@@ -2,18 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_application/services/api-service.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 
 import '../models/movie-model.dart';
+import '../services/api-service.dart';
 import 'movie-item.dart';
 
 class MovieList extends StatefulWidget {
   const MovieList({Key? key}) : super(key: key);
-
-//   @override
-//   State<MovieList> createState() => _MovieListState();
-// }
 
   @override
   _MovieListState createState() => _MovieListState();
@@ -69,7 +65,7 @@ class _MovieListState extends State<MovieList> {
           debugPrint('movieList: $movieList');
           return movieList(model.data);
         }
-        // return movieList(model.data);
+
         return const Center(
           child: CircularProgressIndicator(),
         );

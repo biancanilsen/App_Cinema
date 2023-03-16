@@ -78,27 +78,17 @@ class APIService {
     if (isEditMode) {
       movieURL = movieURL + "/" + model.id.toString();
     }
-
+    debugPrint(' $isFileSelected');
     var url = Uri.http(Config.apiURL, movieURL);
     debugPrint('url: $url');
 
     var requestMethod = isEditMode ? "PUT" : "POST";
 
-    Map data = {
-      'name': model.name,
-      'classification': model.classification,
-      'type': model.type,
-      'duration': model.duration,
-      'room': model.room,
-      // 'path': imageModel.filename.toString(),
-      'path': fileName,
-      // tentar json encode para retornar a ser string
-    };
-
-    var body = json.encode(data);
+    Map data;
+    var body;
     var response;
 
-    if (isEditMode == true && model.path != "") {
+    if (isFileSelected == false) {
       data = {
         'name': model.name,
         'classification': model.classification,
@@ -107,9 +97,7 @@ class APIService {
         'room': model.room,
         'path': model.path,
       };
-      var body = json.encode(data);
-      response = await http.put(url,
-          headers: {"Content-Type": "application/json"}, body: body);
+      body = json.encode(data);
     } else {
       data = {
         'name': model.name,
@@ -119,7 +107,13 @@ class APIService {
         'room': model.room,
         'path': fileName,
       };
-      var body = json.encode(data);
+      body = json.encode(data);
+    }
+
+    if (isEditMode == true) {
+      response = await http.put(url,
+          headers: {"Content-Type": "application/json"}, body: body);
+    } else {
       response = await http.post(url,
           headers: {"Content-Type": "application/json"}, body: body);
     }
