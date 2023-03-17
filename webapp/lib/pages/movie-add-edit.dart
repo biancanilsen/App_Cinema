@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-// import 'package:flutter_progress_hud/flutter_progress_hud.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/hex_color.dart';
@@ -25,14 +24,12 @@ class _MovieAddEditState extends State<MovieAddEdit> {
   static final GlobalKey<FormState> globalKey = GlobalKey<FormState>();
   bool isAPICallProcess = false;
   MovieModel? movieModel;
-
   bool isEditMode = false;
   bool isImageSalected = false;
   bool newImage = false;
   String fileName = "";
-  List<dynamic> countries = [];
-  String? countruId;
-  // String dropdownValue = 'One';
+  String? _selectedValueClassification;
+  String? _selectedValueType;
 
   @override
   void initState() {
@@ -47,9 +44,6 @@ class _MovieAddEditState extends State<MovieAddEdit> {
         setState(() {});
       }
     });
-
-    this.countries.add({"id": 1, "label": "India"});
-    this.countries.add({"id": 2, "label": "EUA"});
   }
 
   @override
@@ -74,7 +68,12 @@ class _MovieAddEditState extends State<MovieAddEdit> {
               });
 
               APIService.saveMovies(
-                      movieModel!, isEditMode, isImageSalected, fileName)
+                      movieModel!,
+                      isEditMode,
+                      isImageSalected,
+                      fileName,
+                      _selectedValueType,
+                      _selectedValueClassification)
                   .then(
                 (response) {
                   setState(() {
@@ -148,138 +147,101 @@ class _MovieAddEditState extends State<MovieAddEdit> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 10, top: 10),
-            child: FormHelper.inputFieldWidget(
-              context,
-              "classification",
-              "Classificação",
-              (onValidateVal) {
-                if (onValidateVal.isEmpty) {
-                  return 'Movie classification can´t be empty';
-                }
-                return null;
-              },
-              (onSavedVal) {
-                movieModel?.classification = int.parse(onSavedVal);
-              },
-              initialValue: movieModel?.classification == null
-                  ? ""
-                  : movieModel!.classification.toString(),
-              borderColor: Colors.black,
-              borderFocusColor: Colors.black,
-              textColor: Colors.black,
-              hintColor: Colors.black.withOpacity(.7),
-              borderRadius: 10,
-              showPrefixIcon: false,
+            padding:
+                const EdgeInsets.only(bottom: 10, top: 10, left: 20, right: 20),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                border: Border.all(),
+              ),
+              child: SizedBox(
+                height: 50,
+                child: DropdownButtonFormField(
+                  value: _selectedValueClassification,
+                  hint: const Text('Classificação'),
+                  style: TextStyle(
+                    color: Colors.grey[800],
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                  ),
+                  onChanged: (newValue) {
+                    setState(() {
+                      _selectedValueClassification = newValue as String?;
+                    });
+                  },
+                  dropdownColor: Colors.white,
+                  items: const [
+                    DropdownMenuItem(
+                      child: Text("Livre"),
+                      value: "0",
+                    ),
+                    DropdownMenuItem(
+                      child: Text("10+"),
+                      value: "1",
+                    ),
+                    DropdownMenuItem(
+                      child: Text("12+"),
+                      value: "2",
+                    ),
+                    DropdownMenuItem(
+                      child: Text("14+"),
+                      value: "3",
+                    ),
+                    DropdownMenuItem(
+                      child: Text("16+"),
+                      value: "4",
+                    ),
+                    DropdownMenuItem(
+                      child: Text("18+"),
+                      value: "5",
+                    ),
+                  ],
+                ),
+              ),
             ),
-
-            // child: FormHelper.dropDownWidgetWithLabel(
-            //   context,
-            //   "Selecione uma classificação",
-            //   this.countruId,
-            //   this.countruId,
-            //   this.countries,
-            //   (onChanged{}),
-            //   onValidate)
-
-            // child: DropdownButtonFormField(
-            //   // value: 'item1',
-            //   hint: Text('Classificação'),
-            //   decoration: const InputDecoration(),
-            //   onChanged: (_) {},
-            //   dropdownColor: Colors.white,
-
-            //   items: [
-            //     DropdownMenuItem(
-            //       child: Text('Livre'),
-            //       value: '0',
-            //     ),
-            //     DropdownMenuItem(
-            //       child: Text('10+'),
-            //       value: '1',
-            //     ),
-            //     DropdownMenuItem(
-            //       child: Text('12+'),
-            //       value: '2',
-            //     ),
-            //     DropdownMenuItem(
-            //       child: Text('14+'),
-            //       value: '3',
-            //     ),
-            //     DropdownMenuItem(
-            //       child: Text('16+'),
-            //       value: '4',
-            //     ),
-            //     DropdownMenuItem(
-            //       child: Text('18+'),
-            //       value: '5',
-            //     ),
-            //   ],
-            // ),
-
-            // child: FormHelper.dropDownWidgetWithLabel(
-            //   context,
-            //   "Classificação",
-            //   "Classificação indicativa",
-            //   dropdownValue,
-            //   lstData,
-            //  (String? newValue) {
-            //       setState(() {
-            //         dropdownValue = newValue!;
-            //       });
-            //     },
-            //   (){
-
-            //   },
-            //   )
-
-            // child: FormHelper.inputFieldWidget(
-            //   context,
-            //   "classification",
-            //   "Classificação",
-            //   (onValidateVal) {
-            //     if (onValidateVal.isEmpty) {
-            //       return 'Movie classification can´t be empty';
-            //     }
-            //     return null;
-            //   },
-            //   (onSavedVal) {
-            //     movieModel!.classification = int.parse(onSavedVal);
-            //   },
-            //   initialValue: movieModel!.classification == null
-            //       ? ""
-            //       : movieModel!.classification.toString(),
-            //   borderColor: Colors.black,
-            //   borderFocusColor: Colors.black,
-            //   textColor: Colors.black,
-            //   hintColor: Colors.black.withOpacity(.7),
-            //   borderRadius: 10,
-            //   showPrefixIcon: false,
-            // ),
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 10, top: 10),
-            child: FormHelper.inputFieldWidget(
-              context,
-              "type",
-              "Tipo",
-              (onValidateVal) {
-                if (onValidateVal.isEmpty) {
-                  return 'Type can´t be empty';
-                }
-                return null;
-              },
-              (onSavedVal) => {
-                movieModel?.type = int.parse(onSavedVal),
-              },
-              initialValue:
-                  movieModel?.type == null ? "" : movieModel!.type.toString(),
-              borderColor: Colors.black,
-              borderFocusColor: Colors.black,
-              textColor: Colors.black,
-              hintColor: Colors.black.withOpacity(.7),
-              borderRadius: 10,
-              showPrefixIcon: false,
+            padding:
+                const EdgeInsets.only(bottom: 10, top: 10, left: 20, right: 20),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                border: Border.all(),
+              ),
+              child: SizedBox(
+                height: 50,
+                child: DropdownButtonFormField(
+                  value: _selectedValueType,
+                  hint: const Text('Tipo'),
+                  style: TextStyle(
+                    color: Colors.grey[800],
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                  ),
+                  onChanged: (newValue) {
+                    setState(() {
+                      _selectedValueType = newValue as String?;
+                    });
+                  },
+                  dropdownColor: Colors.white,
+                  items: const [
+                    DropdownMenuItem(
+                      child: Text('Dublado'),
+                      value: "0",
+                    ),
+                    DropdownMenuItem(
+                      child: Text('Legendado'),
+                      value: "1",
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
           Padding(
@@ -307,7 +269,7 @@ class _MovieAddEditState extends State<MovieAddEdit> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 5, top: 10),
+            padding: const EdgeInsets.only(top: 10, bottom: 5),
             child: FormHelper.inputFieldWidget(
               context,
               "room",
@@ -350,6 +312,12 @@ class _MovieAddEditState extends State<MovieAddEdit> {
     );
   }
 
+  // void _handleDropdownValueChanged(String value) {
+  //   setState(() {
+  //     _selectedValue = value;
+  //   });
+  // }
+
   bool vaidateAndSave() {
     final form = globalKey.currentState;
     if (form!.validate()) {
@@ -373,16 +341,16 @@ class _MovieAddEditState extends State<MovieAddEdit> {
             ? isFileSelected
                 ? Image.file(
                     File(fileName),
-                    height: 200,
-                    width: 200,
+                    height: 180,
+                    width: 180,
                   )
                 : SizedBox(
                     child: Image.network(
                       (isEditMode == true && movieModel!.path == "")
                           ? fileName
                           : "http://192.168.8.42:3000/movie/file/upload/${movieModel!.path!}",
-                      width: 200,
-                      height: 200,
+                      // width: 200,
+                      height: 180,
                       fit: BoxFit.scaleDown,
                     ),
                   )
@@ -391,7 +359,7 @@ class _MovieAddEditState extends State<MovieAddEdit> {
                   (movieModel!.path == null || movieModel!.path == "")
                       ? "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png"
                       : "http://192.168.8.42:3000/movie/file/upload/${movieModel!.path!}",
-                  height: 230,
+                  height: 180,
                   fit: BoxFit.scaleDown,
                 ),
               ),

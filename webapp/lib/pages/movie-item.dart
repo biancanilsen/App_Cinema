@@ -12,8 +12,6 @@ import 'package:flutter/foundation.dart';
 import '../services/api-service.dart';
 
 class MovieItem extends StatefulWidget {
-  // const MovieItem({Key? key, this.model, this.onDelete}) : super(key: key);
-
   final MovieModel? model;
   final Function? onDelete;
 
@@ -56,11 +54,10 @@ class _MovieItemState extends State<MovieItem> {
         Container(
           alignment: Alignment.center,
           margin: const EdgeInsets.all(10),
-          // child: Image.file(File(model?.path!)),
           child: Image.network(
             (widget.model!.path == null || widget.model!.path == "")
                 ? "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png"
-                : "http://192.168.8.42:3000/movie/file/upload/${widget.model!.path!}",
+                : "http://192.168.8.42:3000/movie/file/upload/${widget.model!.path}",
             height: 230,
             fit: BoxFit.scaleDown,
           ),
@@ -71,42 +68,17 @@ class _MovieItemState extends State<MovieItem> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "${widget.model!.name}",
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
+              SizedBox(
+                height: 30,
+                child: Text(
+                  "${widget.model!.name}",
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               const SizedBox(height: 10),
-              // DropdownButton<String>(
-              //   value: dropdownValue,
-              //   icon: const Icon(Icons.menu),
-              //   style: const TextStyle(color: Colors.white),
-              //   underline: Container(
-              //     height: 2,
-              //     color: Colors.white,
-              //   ),
-              //   onChanged: (String? newValue) {
-              //     setState(() {
-              //       dropdownValue = newValue!;
-              //     });
-              //   },
-              //   items: const [
-              //     DropdownMenuItem<String>(
-              //       value: 'One',
-              //       child: Text('One'),
-              //     ),
-              //     DropdownMenuItem<String>(
-              //       value: 'Two',
-              //       child: Text('Two'),
-              //     ),
-              //     DropdownMenuItem<String>(
-              //       value: 'Three',
-              //       child: Text('Three'),
-              //     ),
-              //   ],
-              // ),
               Text(
                 "Classificação: ${widget.model!.classification}",
                 style: TextStyle(color: Colors.black),
@@ -129,7 +101,7 @@ class _MovieItemState extends State<MovieItem> {
               const SizedBox(height: 10),
               Container(
                 width: MediaQuery.of(context).size.width - 250,
-                margin: const EdgeInsets.only(top: 75),
+                margin: const EdgeInsets.only(top: 65),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [

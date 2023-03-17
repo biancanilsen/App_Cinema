@@ -11,10 +11,6 @@ import 'movie-item.dart';
 class MovieList extends StatefulWidget {
   const MovieList({Key? key}) : super(key: key);
 
-//   @override
-//   State<MovieList> createState() => _MovieListState();
-// }
-
   @override
   _MovieListState createState() => _MovieListState();
 }
@@ -85,20 +81,6 @@ class _MovieListState extends State<MovieList> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
           Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-            // ElevatedButton(
-            //   style: ElevatedButton.styleFrom(
-            //     primary: Colors.green,
-            //     onPrimary: Colors.white,
-            //     shadowColor: Colors.greenAccent,
-            //     elevation: 3,
-            //     shape: RoundedRectangleBorder(
-            //         borderRadius: BorderRadius.circular(5)),
-            //   ),
-            //   onPressed: () {
-            //     Navigator.pushNamed(context, "/add-movie");
-            //   },
-            //   child: const Text("Add Movie"),
-            // ),
             ListView.builder(
               shrinkWrap: true,
               physics: const ClampingScrollPhysics(),
@@ -106,15 +88,6 @@ class _MovieListState extends State<MovieList> {
               itemCount: movies.length,
               itemBuilder: (context, index) {
                 return MovieItem(
-                  // model: movies[index],
-                  // onDelete: (MovieModel model) {
-                  //   setState(() {
-                  //     isAPICallProcess = true;
-                  //   });
-
-                  //   APIService.deleteMovies(model.id).then((response) {
-                  //     setState(() {
-                  //       isAPICallProcess = false;
                   model: movies[index],
                   onDelete: (MovieModel model) {
                     setState(() {

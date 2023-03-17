@@ -72,6 +72,8 @@ class APIService {
     bool isEditMode,
     bool isFileSelected,
     String fileName,
+    String? _selectedValue,
+    String? _selectedValueClassification,
   ) async {
     var movieURL = Config.movieURL;
 
@@ -91,8 +93,8 @@ class APIService {
     if (isFileSelected == false) {
       data = {
         'name': model.name,
-        'classification': model.classification,
-        'type': model.type,
+        'classification': _selectedValueClassification,
+        'type': _selectedValue,
         'duration': model.duration,
         'room': model.room,
         'path': model.path,
@@ -101,13 +103,14 @@ class APIService {
     } else {
       data = {
         'name': model.name,
-        'classification': model.classification,
-        'type': model.type,
+        'classification': _selectedValueClassification,
+        'type': _selectedValue,
         'duration': model.duration,
         'room': model.room,
         'path': fileName,
       };
       body = json.encode(data);
+      debugPrint('data: $data');
     }
 
     if (isEditMode == true) {
@@ -116,6 +119,7 @@ class APIService {
     } else {
       response = await http.post(url,
           headers: {"Content-Type": "application/json"}, body: body);
+      debugPrint('response: $response');
     }
 
     debugPrint('response $response');
