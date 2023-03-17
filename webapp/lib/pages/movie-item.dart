@@ -79,14 +79,28 @@ class _MovieItemState extends State<MovieItem> {
                 ),
               ),
               const SizedBox(height: 10),
-              Text(
-                "Classificação: ${widget.model!.classification}",
-                style: TextStyle(color: Colors.black),
+              Row(
+                children: <Widget>[
+                  if (widget.model!.classification == 0)
+                    const Text("Classificação: Livre"),
+                  if (widget.model!.classification == 1)
+                    const Text("Classificação: 10+"),
+                  if (widget.model!.classification == 2)
+                    const Text("Classificação: 12+"),
+                  if (widget.model!.classification == 3)
+                    const Text("Classificação: 14+"),
+                  if (widget.model!.classification == 4)
+                    const Text("Classificação: 16+"),
+                  if (widget.model!.classification == 5)
+                    const Text("Classificação: 18+"),
+                ],
               ),
               const SizedBox(height: 10),
-              Text(
-                "Tipo: ${widget.model!.type}",
-                style: TextStyle(color: Colors.black),
+              Row(
+                children: <Widget>[
+                  if (widget.model!.type == 0) const Text("Tipo: Dublado"),
+                  if (widget.model!.type == 1) const Text("Tipo: Legendado"),
+                ],
               ),
               const SizedBox(height: 10),
               Text(
@@ -134,4 +148,14 @@ class _MovieItemState extends State<MovieItem> {
       ],
     );
   }
+
+  // Widget getType() {
+  //   return Text((() {
+  //     if (widget.model!.room == 0)
+  //       [
+  //         "Tipo: Dublado",
+  //       ];
+  //     return "Tipo: Legendado";
+  //   })());
+  // }
 }
