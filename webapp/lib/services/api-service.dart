@@ -15,6 +15,7 @@ class APIService {
     Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
 
     var url = Uri.http(Config.apiURL, Config.movieURL);
+
     debugPrint('url: $url');
 
     var response = await client.get(url, headers: requestHeaders);
@@ -72,8 +73,6 @@ class APIService {
     bool isEditMode,
     bool isFileSelected,
     String fileName,
-    String? _selectedValueType,
-    String? _selectedValueClassification,
   ) async {
     var movieURL = Config.movieURL;
 
@@ -93,8 +92,8 @@ class APIService {
     if (isFileSelected == false) {
       data = {
         'name': model.name,
-        'classification': _selectedValueClassification,
-        'type': _selectedValueType,
+        'classification': model.classification,
+        'type': model.type,
         'duration': model.duration,
         'room': model.room,
         'path': model.path,
@@ -103,8 +102,8 @@ class APIService {
     } else {
       data = {
         'name': model.name,
-        'classification': _selectedValueClassification,
-        'type': _selectedValueType,
+        'classification': model.classification,
+        'type': model.type,
         'duration': model.duration,
         'room': model.room,
         'path': fileName,

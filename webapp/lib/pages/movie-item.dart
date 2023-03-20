@@ -57,7 +57,7 @@ class _MovieItemState extends State<MovieItem> {
           child: Image.network(
             (widget.model!.path == null || widget.model!.path == "")
                 ? "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png"
-                : "http://172.16.8.73:3000/movie/file/upload/${widget.model!.path}",
+                : "http://172.16.8.14:3000/movie/file/upload/${widget.model!.path}",
             height: 230,
             fit: BoxFit.scaleDown,
           ),

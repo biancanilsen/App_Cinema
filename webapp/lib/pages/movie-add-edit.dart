@@ -28,8 +28,6 @@ class _MovieAddEditState extends State<MovieAddEdit> {
   bool isImageSalected = false;
   bool newImage = false;
   String fileName = "";
-  String? _selectedValueClassification;
-  String? _selectedValueType;
 
   @override
   void initState() {
@@ -41,6 +39,7 @@ class _MovieAddEditState extends State<MovieAddEdit> {
         final Map arguments = ModalRoute.of(context)?.settings.arguments as Map;
         movieModel = arguments["model"];
         isEditMode = true;
+        print(movieModel?.classification);
         setState(() {});
       }
     });
@@ -68,12 +67,7 @@ class _MovieAddEditState extends State<MovieAddEdit> {
               });
 
               APIService.saveMovies(
-                      movieModel!,
-                      isEditMode,
-                      isImageSalected,
-                      fileName,
-                      _selectedValueType,
-                      _selectedValueClassification)
+                      movieModel!, isEditMode, isImageSalected, fileName)
                   .then(
                 (response) {
                   setState(() {
@@ -157,7 +151,7 @@ class _MovieAddEditState extends State<MovieAddEdit> {
               child: SizedBox(
                 height: 50,
                 child: DropdownButtonFormField(
-                  value: _selectedValueClassification,
+                  value: movieModel?.classification,
                   hint: const Text('Classificação'),
                   style: TextStyle(
                     color: Colors.grey[800],
@@ -169,34 +163,34 @@ class _MovieAddEditState extends State<MovieAddEdit> {
                   ),
                   onChanged: (newValue) {
                     setState(() {
-                      _selectedValueClassification = newValue as String?;
+                      movieModel?.classification = newValue as int;
                     });
                   },
                   dropdownColor: Colors.white,
                   items: const [
                     DropdownMenuItem(
                       child: Text("Livre"),
-                      value: "0",
+                      value: 0,
                     ),
                     DropdownMenuItem(
                       child: Text("10+"),
-                      value: "1",
+                      value: 1,
                     ),
                     DropdownMenuItem(
                       child: Text("12+"),
-                      value: "2",
+                      value: 2,
                     ),
                     DropdownMenuItem(
                       child: Text("14+"),
-                      value: "3",
+                      value: 3,
                     ),
                     DropdownMenuItem(
                       child: Text("16+"),
-                      value: "4",
+                      value: 4,
                     ),
                     DropdownMenuItem(
                       child: Text("18+"),
-                      value: "5",
+                      value: 5,
                     ),
                   ],
                 ),
@@ -214,7 +208,7 @@ class _MovieAddEditState extends State<MovieAddEdit> {
               child: SizedBox(
                 height: 50,
                 child: DropdownButtonFormField(
-                  value: _selectedValueType,
+                  value: movieModel?.type,
                   hint: const Text('Tipo'),
                   style: TextStyle(
                     color: Colors.grey[800],
@@ -226,18 +220,18 @@ class _MovieAddEditState extends State<MovieAddEdit> {
                   ),
                   onChanged: (newValue) {
                     setState(() {
-                      _selectedValueType = newValue as String?;
+                      movieModel?.type = newValue as int;
                     });
                   },
                   dropdownColor: Colors.white,
                   items: const [
                     DropdownMenuItem(
                       child: Text('Dublado'),
-                      value: "0",
+                      value: 0,
                     ),
                     DropdownMenuItem(
                       child: Text('Legendado'),
-                      value: "1",
+                      value: 1,
                     ),
                   ],
                 ),
@@ -348,7 +342,7 @@ class _MovieAddEditState extends State<MovieAddEdit> {
                     child: Image.network(
                       (isEditMode == true && movieModel!.path == "")
                           ? fileName
-                          : "http://192.168.8.42:3000/movie/file/upload/${movieModel!.path!}",
+                          : "http://192.168.8.14:3000/movie/file/upload/${movieModel!.path!}",
                       // width: 200,
                       height: 180,
                       fit: BoxFit.scaleDown,
@@ -358,7 +352,7 @@ class _MovieAddEditState extends State<MovieAddEdit> {
                 child: Image.network(
                   (movieModel!.path == null || movieModel!.path == "")
                       ? "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png"
-                      : "http://192.168.8.42:3000/movie/file/upload/${movieModel!.path!}",
+                      : "http://192.168.8.14:3000/movie/file/upload/${movieModel!.path!}",
                   height: 180,
                   fit: BoxFit.scaleDown,
                 ),
