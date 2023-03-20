@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import '../models/imageModel.dart';
 import '../models/movie-model.dart';
+import '../models/sessions_model.dart';
 import '../config.dart';
 import 'package:flutter/foundation.dart';
 
@@ -143,6 +144,27 @@ class APIService {
       return true;
     } else {
       return false;
+    }
+  }
+
+  static Future<List<SessionsModel>?> getSessions(movieId) async {
+    Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
+    // SessionsModel sessionsModel;
+
+    var url = Uri.http(Config.apiURL, Config.sessionURL + "/" + movieId);
+
+    debugPrint('url: $url');
+
+    var response = await client.get(url, headers: requestHeaders);
+    debugPrint('response: $response');
+
+    if (response.statusCode == 200) {
+      List<SessionsModel> _sessionsModel = sessionsFromJson(response.body);
+      debugPrint('_sessionsModel: $_sessionsModel');
+
+      return _sessionsModel;
+    } else {
+      return null;
     }
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/pages/movie-add-edit.dart';
 import 'package:flutter_application/pages/movie-list.dart';
+import 'package:flutter_application/pages/movie-sessions.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,7 +30,8 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (context) => const MovieList(),
           '/add-movie': (context) => const MovieAddEdit(),
-          '/edit-movie': (context) => const MovieAddEdit()
+          '/edit-movie': (context) => const MovieAddEdit(),
+          '/sessions-movie': (context) => const MovieSessions()
         });
   }
 }

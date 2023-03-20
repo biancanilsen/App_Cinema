@@ -8,7 +8,6 @@ import '../config.dart';
 import '../models/imageModel.dart';
 import '../models/movie-model.dart';
 import 'package:flutter/foundation.dart';
-
 import '../services/api-service.dart';
 
 class MovieItem extends StatefulWidget {
@@ -28,13 +27,20 @@ class MovieItem extends StatefulWidget {
 class _MovieItemState extends State<MovieItem> {
   String movieId = "";
 
-  String dropdownValue = 'One';
-
   @override
   Widget build(BuildContext context) {
     return Card(
-        elevation: 0,
-        margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+      elevation: 0,
+      margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+      clipBehavior: Clip.hardEdge,
+      child: InkWell(
+        splashColor: Colors.blue.withAlpha(30),
+        onTap: () {
+          Navigator.of(context).pushNamed(
+            '/sessions-movie',
+            arguments: {'movieModel': widget.model},
+          );
+        },
         child: Container(
           width: 200,
           height: 250,
@@ -43,7 +49,9 @@ class _MovieItemState extends State<MovieItem> {
             borderRadius: BorderRadius.circular(50),
           ),
           child: movieCardItem(context),
-        ));
+        ),
+      ),
+    );
   }
 
   Widget movieCardItem(context) {
@@ -57,7 +65,7 @@ class _MovieItemState extends State<MovieItem> {
           child: Image.network(
             (widget.model!.path == null || widget.model!.path == "")
                 ? "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png"
-                : "http://172.16.8.14:3000/movie/file/upload/${widget.model!.path}",
+                : "http://172.16.8.73:3000/movie/file/upload/${widget.model!.path}",
             height: 230,
             fit: BoxFit.scaleDown,
           ),
@@ -124,9 +132,7 @@ class _MovieItemState extends State<MovieItem> {
                       onTap: () {
                         Navigator.of(context).pushNamed(
                           '/edit-movie',
-                          arguments: {
-                            'model': widget.model //  "isEditMode": true
-                          },
+                          arguments: {'model': widget.model},
                         );
                       },
                     ),
