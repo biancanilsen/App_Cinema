@@ -21,6 +21,10 @@ class SessionItem extends StatefulWidget {
 }
 
 class _SessionItemState extends State<SessionItem> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  final TextEditingController _textEditingController = TextEditingController();
+
   String formatDate(String dateStr) {
     DateTime date = DateTime.parse(dateStr);
     String formattedDate = DateFormat('dd/MM/yyyy').format(date);
@@ -71,11 +75,14 @@ class _SessionItemState extends State<SessionItem> {
                 Icons.edit,
                 color: Colors.green,
               ),
-              onPressed: () {
-                Navigator.of(context).pushNamed(
-                  '/edit-session',
-                  // arguments: {'model': widget.model},
-                );
+              // onPressed: () {
+              //   Navigator.of(context).pushNamed(
+              //     '/edit-session',
+              //     // arguments: {'model': widget.model},
+              //   );
+              // },
+              onPressed: () async {
+                await showInformationDialog(context);
               },
             ),
             IconButton(
@@ -123,5 +130,62 @@ class _SessionItemState extends State<SessionItem> {
         // ),
       ),
     );
+  }
+
+  Future<void> showInformationDialog(BuildContext context) async {
+    return await showDialog(
+        context: context,
+        builder: (context) {
+          bool isChecked = false;
+          return StatefulBuilder(builder: (context, setState) {
+            return AlertDialog(
+              content: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextFormField(
+                        controller: _textEditingController,
+                        // validator: (value) {
+                        //   return value.isNotEmpty ? null : "Enter any text";
+                        // },
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Data',
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextFormField(
+                        controller: _textEditingController,
+                        // validator: (value) {
+                        //   return value.isNotEmpty ? null : "Enter any text";
+                        // },
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Hora',
+                        ),
+                      ),
+                    ],
+                  )),
+              title: Text('Sessão'),
+              actions: <Widget>[
+                InkWell(
+                  child: Center(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.green,
+                          textStyle: const TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.bold)),
+                      onPressed: () {},
+                      child: const Text('Salvar'),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          });
+        });
   }
 }
