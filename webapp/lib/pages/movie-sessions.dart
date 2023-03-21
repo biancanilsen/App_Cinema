@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/models/movie-model.dart';
 import 'package:flutter_application/models/sessions_model.dart';
+import 'package:flutter_application/pages/session-item.dart';
 import 'package:flutter_application/services/api-service.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -13,7 +14,7 @@ class MovieSessions extends StatefulWidget {
   const MovieSessions({Key? key}) : super(key: key);
 
   @override
-  State<MovieSessions> createState() => _MovieSessionsState();
+  _MovieSessionsState createState() => _MovieSessionsState();
 }
 
 class _MovieSessionsState extends State<MovieSessions> {
@@ -68,30 +69,48 @@ class _MovieSessionsState extends State<MovieSessions> {
 
   Widget loadSessions() {
     return FutureBuilder(
-      future: APIService.getSessions(sessionsModel?.movieId),
+      future: APIService.getSessions(movieModel?.id),
       builder: (
         BuildContext context,
         AsyncSnapshot<List<SessionsModel>?> sessionsModel,
       ) {
-        debugPrint('sessionsModel?.movieId: $sessionsModel?.movieId');
+        debugPrint('sessionsModel?.movieId: $sessionsModel');
+        // setState(() {});
         if (sessionsModel.hasData) {
           debugPrint('sessionsList: $sessionsList');
           return sessionsList(sessionsModel.data);
         }
-        // return movieList(model.data);
-        return const Center(
-            // child: CircularProgressIndicator(),
-            child: Text('Não deu certo :('));
+
+        return Center(child: const CircularProgressIndicator());
       },
     );
   }
 
   Widget sessionsList(sessions) {
-    return Card(
-      child: ListTile(
-        title: Text('One-line with trailing widget'),
-        trailing: Icon(Icons.more_vert),
-      ),
-    );
+    // return Card(
+    //   child: ListTile(
+    //     title: Text('One-line with trailing widget'),
+    //     trailing: Icon(Icons.more_vert),
+    //   ),
+    // );
+    return SingleChildScrollView(
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+          Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const ClampingScrollPhysics(),
+              scrollDirection: Axis.vertical,
+              itemCount: sessions.length,
+              itemBuilder: (context, index) {
+                return SessionItem(
+                  model: sessions[index],
+                );
+              },
+            ),
+          ])
+        ]));
   }
 }

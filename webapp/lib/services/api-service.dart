@@ -162,7 +162,7 @@ class APIService {
       List<SessionsModel> _sessionsModel = sessionsFromJson(response.body);
       debugPrint('_sessionsModel: $_sessionsModel');
 
-      return _sessionsModel;
+      return await _sessionsModel;
     } else {
       return null;
     }

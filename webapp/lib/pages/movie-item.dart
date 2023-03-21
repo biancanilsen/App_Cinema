@@ -112,7 +112,7 @@ class _MovieItemState extends State<MovieItem> {
               ),
               const SizedBox(height: 10),
               Text(
-                "Duração: ${widget.model!.duration}",
+                "Duração: ${widget.model!.duration} minutos",
                 style: TextStyle(color: Colors.black),
               ),
               const SizedBox(height: 10),
