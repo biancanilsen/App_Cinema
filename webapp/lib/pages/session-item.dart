@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_application/pages/session-add-edit.dart';
 import '../models/sessions_model.dart';
 import 'package:intl/intl.dart';
 
@@ -62,32 +63,64 @@ class _SessionItemState extends State<SessionItem> {
         subtitle: Text(
           "Horário: ${widget.model!.timeDay}",
         ),
-        trailing: Padding(
-          padding: const EdgeInsets.only(top: 50),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              GestureDetector(
-                child: const Icon(Icons.edit, color: Colors.green),
-                onTap: () {
-                  // Navigator.of(context).pushNamed(
-                  //   '/edit-movie',
-                  //   arguments: {'model': widget.model},
-                  // );
-                },
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            IconButton(
+              icon: const Icon(
+                Icons.edit,
+                color: Colors.green,
               ),
-              GestureDetector(
-                child: const Icon(
-                  Icons.delete_sweep,
-                  color: Colors.red,
-                ),
-                onTap: () {
-                  // widget.onDelete!(widget.model);
-                },
-              )
-            ],
-          ),
+              onPressed: () {
+                Navigator.of(context).pushNamed(
+                  '/edit-session',
+                  // arguments: {'model': widget.model},
+                );
+              },
+            ),
+            IconButton(
+              icon: const Icon(
+                Icons.delete_sweep,
+                color: Colors.red,
+              ),
+              onPressed: () {
+                Navigator.of(context).pushNamed(
+                  '/edit-session',
+                  // arguments: {'model': widget.model},
+                );
+              },
+            ),
+          ],
         ),
+
+        // trailing: Padding(
+        //   padding: const EdgeInsets.only(top: 50),
+        //   child: Row(
+        //     mainAxisSize: MainAxisSize.min,
+        //     children: [
+        //       IconButton(
+        //         icon: const Icon(Icons.edit, color: Colors.green),
+        //         tooltip: 'Increase volume by 10',
+        //         onPressed: () {
+        //           Navigator.of(context).pushNamed(
+        //             '/edit-session',
+        //             // arguments: {'model': widget.model},
+        //           );
+        //         },
+        //       ),
+        //       IconButton(
+        //         icon: const Icon(Icons.delete_sweep, color: Colors.red),
+        //         tooltip: 'Increase volume by 10',
+        //         onPressed: () {
+        //           Navigator.of(context).pushNamed(
+        //             '/edit-session',
+        //             // arguments: {'model': widget.model},
+        //           );
+        //         },
+        //       ),
+        //     ],
+        //   ),
+        // ),
       ),
     );
   }

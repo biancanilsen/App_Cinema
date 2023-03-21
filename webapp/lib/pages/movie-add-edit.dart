@@ -151,49 +151,49 @@ class _MovieAddEditState extends State<MovieAddEdit> {
               ),
               child: SizedBox(
                 height: 50,
-                child: DropdownButtonFormField(
-                  value: movieModel?.classification,
-                  hint: const Text('Classificação'),
-                  style: TextStyle(
-                    color: Colors.grey[800],
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 2.0, left: 6, right: 4),
+                  child: DropdownButtonFormField(
+                    value: movieModel?.classification,
+                    hint: const Text('Classificação'),
+                    style: TextStyle(
+                      color: Colors.grey[900],
+                      fontSize: 16.0,
+                    ),
+                    decoration: const InputDecoration(),
+                    onChanged: (newValue) {
+                      setState(() {
+                        movieModel?.classification = newValue as int;
+                      });
+                    },
+                    dropdownColor: Colors.white,
+                    items: const [
+                      DropdownMenuItem(
+                        child: Text("Livre"),
+                        value: 0,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("10+"),
+                        value: 1,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("12+"),
+                        value: 2,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("14+"),
+                        value: 3,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("16+"),
+                        value: 4,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("18+"),
+                        value: 5,
+                      ),
+                    ],
                   ),
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                  ),
-                  onChanged: (newValue) {
-                    setState(() {
-                      movieModel?.classification = newValue as int;
-                    });
-                  },
-                  dropdownColor: Colors.white,
-                  items: const [
-                    DropdownMenuItem(
-                      child: Text("Livre"),
-                      value: 0,
-                    ),
-                    DropdownMenuItem(
-                      child: Text("10+"),
-                      value: 1,
-                    ),
-                    DropdownMenuItem(
-                      child: Text("12+"),
-                      value: 2,
-                    ),
-                    DropdownMenuItem(
-                      child: Text("14+"),
-                      value: 3,
-                    ),
-                    DropdownMenuItem(
-                      child: Text("16+"),
-                      value: 4,
-                    ),
-                    DropdownMenuItem(
-                      child: Text("18+"),
-                      value: 5,
-                    ),
-                  ],
                 ),
               ),
             ),
@@ -208,33 +208,33 @@ class _MovieAddEditState extends State<MovieAddEdit> {
               ),
               child: SizedBox(
                 height: 50,
-                child: DropdownButtonFormField(
-                  value: movieModel?.type,
-                  hint: const Text('Tipo'),
-                  style: TextStyle(
-                    color: Colors.grey[800],
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                  ),
-                  onChanged: (newValue) {
-                    setState(() {
-                      movieModel?.type = newValue as int;
-                    });
-                  },
-                  dropdownColor: Colors.white,
-                  items: const [
-                    DropdownMenuItem(
-                      child: Text('Dublado'),
-                      value: 0,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 2.0, left: 6, right: 4),
+                  child: DropdownButtonFormField(
+                    value: movieModel?.type,
+                    hint: const Text('Tipo'),
+                    style: TextStyle(
+                      color: Colors.grey[900],
+                      fontSize: 16.0,
                     ),
-                    DropdownMenuItem(
-                      child: Text('Legendado'),
-                      value: 1,
-                    ),
-                  ],
+                    decoration: const InputDecoration(),
+                    onChanged: (newValue) {
+                      setState(() {
+                        movieModel?.type = newValue as int;
+                      });
+                    },
+                    dropdownColor: Colors.white,
+                    items: const [
+                      DropdownMenuItem(
+                        child: Text('Dublado'),
+                        value: 0,
+                      ),
+                      DropdownMenuItem(
+                        child: Text('Legendado'),
+                        value: 1,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
