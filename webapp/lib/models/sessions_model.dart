@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:flutter_application/models/movie-model.dart';
+import 'package:flutter_application/models/movie_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:flutter_application/pages/session-add-edit.dart';
+import 'package:flutter_application/pages/session_add_edit.dart';
 import '../models/sessions_model.dart';
 import 'package:intl/intl.dart';
 
@@ -75,12 +75,6 @@ class _SessionItemState extends State<SessionItem> {
                 Icons.edit,
                 color: Colors.green,
               ),
-              // onPressed: () {
-              //   Navigator.of(context).pushNamed(
-              //     '/edit-session',
-              //     // arguments: {'model': widget.model},
-              //   );
-              // },
               onPressed: () async {
                 await showInformationDialog(context);
               },

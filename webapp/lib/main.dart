@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/pages/movie-add-edit.dart';
-import 'package:flutter_application/pages/movie-list.dart';
-import 'package:flutter_application/pages/movie-sessions.dart';
+import 'package:flutter_application/pages/movie_add_edit.dart';
+import 'package:flutter_application/pages/movie_list.dart';
+import 'package:flutter_application/pages/movie_sessions.dart';
 
-import 'pages/session-add-edit.dart';
+import 'pages/session_add_edit.dart';
 
 void main() {
   runApp(const MyApp());

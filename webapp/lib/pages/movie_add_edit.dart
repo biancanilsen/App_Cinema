@@ -8,9 +8,9 @@ import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/hex_color.dart';
 import 'package:image_picker/image_picker.dart';
 import '../config.dart';
-import '../models/imageModel.dart';
-import '../models/movie-model.dart';
-import '../services/api-service.dart';
+import '../models/image_model.dart';
+import '../models/movie_model.dart';
+import '../services/api_service.dart';
 import 'package:flutter/foundation.dart';
 
 class MovieAddEdit extends StatefulWidget {
@@ -306,12 +306,6 @@ class _MovieAddEditState extends State<MovieAddEdit> {
       ),
     );
   }
-
-  // void _handleDropdownValueChanged(String value) {
-  //   setState(() {
-  //     _selectedValue = value;
-  //   });
-  // }
 
   bool vaidateAndSave() {
     final form = globalKey.currentState;

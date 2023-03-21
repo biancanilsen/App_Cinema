@@ -5,10 +5,10 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import '../config.dart';
-import '../models/imageModel.dart';
-import '../models/movie-model.dart';
+import '../models/image_model.dart';
+import '../models/movie_model.dart';
 import 'package:flutter/foundation.dart';
-import '../services/api-service.dart';
+import '../services/api_service.dart';
 
 class MovieItem extends StatefulWidget {
   final MovieModel? model;
@@ -154,14 +154,4 @@ class _MovieItemState extends State<MovieItem> {
       ],
     );
   }
-
-  // Widget getType() {
-  //   return Text((() {
-  //     if (widget.model!.room == 0)
-  //       [
-  //         "Tipo: Dublado",
-  //       ];
-  //     return "Tipo: Legendado";
-  //   })());
-  // }
 }

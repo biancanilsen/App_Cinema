@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import '../models/imageModel.dart';
-import '../models/movie-model.dart';
+import '../models/image_model.dart';
+import '../models/movie_model.dart';
 import '../models/sessions_model.dart';
 import '../config.dart';
 import 'package:flutter/foundation.dart';

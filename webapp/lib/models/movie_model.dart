@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:flutter_application/models/imageModel.dart';
+import 'package:flutter_application/models/image_model.dart';
 
 List<MovieModel> moviesFromJson(String str) =>
     List<MovieModel>.from(json.decode(str).map((x) => MovieModel.fromJson(x)));

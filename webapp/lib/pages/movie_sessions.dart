@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application/models/movie-model.dart';
+import 'package:flutter_application/models/movie_model.dart';
 import 'package:flutter_application/models/sessions_model.dart';
-import 'package:flutter_application/pages/session-item.dart';
-import 'package:flutter_application/services/api-service.dart';
+import 'package:flutter_application/pages/session_item.dart';
+import 'package:flutter_application/services/api_service.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
