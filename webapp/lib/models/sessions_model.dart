@@ -24,7 +24,7 @@ class SessionsModel {
     // id = json["id"];
     timeDay = json["timeDay"];
     date = json["date"];
-    movieId = json["MovieModel"];
+    movieId = json["movieId"];
   }
 
   Map<String, dynamic> toJson() {
@@ -32,7 +32,7 @@ class SessionsModel {
     // _data["id"] = id;
     _data["timeDay"] = timeDay;
     _data["date"] = date;
-    _data["MovieModel"] = movieId;
+    _data["movieId"] = movieId;
     ;
 
     return _data;

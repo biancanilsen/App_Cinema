@@ -19,6 +19,7 @@ class MovieSessions extends StatefulWidget {
 class _MovieSessionsState extends State<MovieSessions> {
   bool isApiCallProcess = false;
   MovieModel? movieModel;
+  SessionsModel? sessionsModel;
 
   @override
   void initState() {
@@ -67,12 +68,12 @@ class _MovieSessionsState extends State<MovieSessions> {
 
   Widget loadSessions() {
     return FutureBuilder(
-      future: APIService.getSessions(movieModel?.id),
+      future: APIService.getSessions(sessionsModel?.movieId),
       builder: (
         BuildContext context,
         AsyncSnapshot<List<SessionsModel>?> sessionsModel,
       ) {
-        debugPrint('movieModel?.id: $movieModel?.id');
+        debugPrint('sessionsModel?.movieId: $sessionsModel?.movieId');
         if (sessionsModel.hasData) {
           debugPrint('sessionsList: $sessionsList');
           return sessionsList(sessionsModel.data);
