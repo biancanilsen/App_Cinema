@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_application/pages/session_add_edit.dart';
+import 'package:snippet_coder_utils/FormHelper.dart';
+import '../config.dart';
 import '../models/sessions_model.dart';
 import 'package:intl/intl.dart';
+
+import '../services/api_service.dart';
 
 class SessionItem extends StatefulWidget {
   final SessionsModel? model;
@@ -21,9 +25,13 @@ class SessionItem extends StatefulWidget {
 }
 
 class _SessionItemState extends State<SessionItem> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  final TextEditingController _textEditingController = TextEditingController();
+  static final GlobalKey<FormState> globalKey = GlobalKey<FormState>();
+  bool isAPICallProcess = false;
+  SessionsModel? sessionsModel;
+  // final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _dateEditingController = TextEditingController();
+  final TextEditingController _hourlyEditingController =
+      TextEditingController();
 
   String formatDate(String dateStr) {
     DateTime date = DateTime.parse(dateStr);
@@ -48,7 +56,7 @@ class _SessionItemState extends State<SessionItem> {
         // },
         child: Container(
           width: 200,
-          height: 100,
+          height: 85,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(50),
@@ -128,18 +136,19 @@ class _SessionItemState extends State<SessionItem> {
 
   Future<void> showInformationDialog(BuildContext context) async {
     return await showDialog(
-        context: context,
-        builder: (context) {
-          bool isChecked = false;
-          return StatefulBuilder(builder: (context, setState) {
+      context: context,
+      builder: (context) {
+        bool isChecked = false;
+        return StatefulBuilder(
+          builder: (context, setState) {
             return AlertDialog(
               content: Form(
-                  key: _formKey,
+                  key: globalKey,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       TextFormField(
-                        controller: _textEditingController,
+                        controller: _dateEditingController,
                         // validator: (value) {
                         //   return value.isNotEmpty ? null : "Enter any text";
                         // },
@@ -152,7 +161,7 @@ class _SessionItemState extends State<SessionItem> {
                         height: 10,
                       ),
                       TextFormField(
-                        controller: _textEditingController,
+                        controller: _hourlyEditingController,
                         // validator: (value) {
                         //   return value.isNotEmpty ? null : "Enter any text";
                         // },
@@ -168,18 +177,59 @@ class _SessionItemState extends State<SessionItem> {
                 InkWell(
                   child: Center(
                     child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.green,
-                          textStyle: const TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold)),
-                      onPressed: () {},
-                      child: const Text('Salvar'),
-                    ),
+                        style: ElevatedButton.styleFrom(
+                            primary: Colors.green,
+                            textStyle: const TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.bold)),
+                        child: const Text('Salvar'),
+                        onPressed: () async {
+                          if (vaidateAndSave()) {
+                            //API Service
+                            setState(() {
+                              isAPICallProcess = true;
+                            });
+
+                            APIService.updteSessions(sessionsModel!).then(
+                              (response) {
+                                setState(() {
+                                  isAPICallProcess = false;
+                                });
+
+                                if (response) {
+                                  Navigator.pushNamedAndRemoveUntil(
+                                      context, '/', (route) => false);
+                                } else {
+                                  FormHelper.showSimpleAlertDialog(
+                                    context,
+                                    Config.appName,
+                                    "Error Occure",
+                                    "OK",
+                                    () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  );
+                                }
+                              },
+                            );
+                          }
+                        }),
                   ),
                 ),
               ],
             );
-          });
-        });
+          },
+        );
+      },
+    );
+  }
+
+  bool vaidateAndSave() {
+    final form = globalKey.currentState;
+    if (form!.validate()) {
+      form.save();
+      debugPrint('form: $form');
+      return true;
+    }
+    return false;
   }
 }

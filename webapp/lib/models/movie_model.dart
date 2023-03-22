@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter_application/models/image_model.dart';
 
 List<MovieModel> moviesFromJson(String str) =>
     List<MovieModel>.from(json.decode(str).map((x) => MovieModel.fromJson(x)));
@@ -37,15 +36,15 @@ class MovieModel {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data["id"] = id;
-    _data["name"] = name;
-    _data["classification"] = classification;
-    _data["type"] = type;
-    _data["duration"] = duration;
-    _data["room"] = room;
-    _data["path"] = path;
+    final data = <String, dynamic>{};
+    data["id"] = id;
+    data["name"] = name;
+    data["classification"] = classification;
+    data["type"] = type;
+    data["duration"] = duration;
+    data["room"] = room;
+    data["path"] = path;
 
-    return _data;
+    return data;
   }
 }

@@ -4,4 +4,5 @@ class Config {
   static const String movieURL = "/movie";
   static const String imageURL = "/movie/file/upload";
   static const String sessionURL = "/hourly/movie";
+  static const String createSessionURL = "/hourly";
 }

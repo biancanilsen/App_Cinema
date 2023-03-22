@@ -167,4 +167,75 @@ class APIService {
       return null;
     }
   }
+
+  static Future<bool> saveSessions(
+    SessionsModel model,
+  ) async {
+    var createSessionURL = Config.createSessionURL;
+
+    var url = Uri.http(Config.apiURL, createSessionURL);
+    debugPrint('url: $url');
+
+    Map data;
+    var body;
+    var response;
+
+    data = {
+      'date': model.date,
+      'timeDay': model.timeDay,
+      'movieId': model.movieId,
+    };
+    body = json.encode(data);
+    debugPrint('data: $url');
+    // }
+
+    response = await http.post(url,
+        headers: {"Content-Type": "application/json"}, body: body);
+
+    debugPrint('response $response');
+
+    if (response.statusCode == 201 || response.statusCode == 201) {
+      debugPrint('response $response.statusCode');
+      return true;
+    } else {
+      debugPrint('response $response.statusCode');
+      return false;
+    }
+  }
+
+  static Future<bool> updteSessions(
+    SessionsModel model,
+  ) async {
+    var createSessionURL = Config.createSessionURL;
+
+    var url =
+        Uri.http(Config.apiURL, createSessionURL + "/" + model.id.toString());
+    debugPrint('url: $url');
+
+    Map data;
+    var body;
+    var response;
+
+    data = {
+      'date': model.date,
+      'timeDay': model.timeDay,
+      'movieId': model.movieId,
+    };
+    body = json.encode(data);
+    debugPrint('data: $url');
+    // }
+
+    response = await http.put(url,
+        headers: {"Content-Type": "application/json"}, body: body);
+
+    debugPrint('response $response');
+
+    if (response.statusCode == 201 || response.statusCode == 200) {
+      debugPrint('response $response.statusCode');
+      return true;
+    } else {
+      debugPrint('response $response.statusCode');
+      return false;
+    }
+  }
 }
