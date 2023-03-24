@@ -9,8 +9,10 @@ import '../models/sessions_model.dart';
 import '../services/api_service.dart';
 
 class SessionsAddEditDialog extends StatefulWidget {
-  const SessionsAddEditDialog({Key? key, this.sessionModel}) : super(key: key);
+  const SessionsAddEditDialog({Key? key, this.sessionModel, this.movieId})
+      : super(key: key);
   final SessionsModel? sessionModel;
+  final String? movieId;
 
   @override
   State<SessionsAddEditDialog> createState() => _SessionsAddEditDialogState();
@@ -36,7 +38,9 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
     sessionsModel = SessionsModel();
     if (widget.sessionModel?.date == null) {
       formattedDate = null;
+      sessionsModel?.movieId = widget.movieId;
     } else {
+      sessionsModel?.id = widget.sessionModel?.id;
       formattedDate = formatDate(widget.sessionModel!.date!);
     }
   }
@@ -56,29 +60,53 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
               setState(() {
                 isAPICallProcess = true;
               });
+              if (widget.sessionModel?.id == null) {
+                APIService.saveSessions(sessionsModel!, false).then(
+                  (response) {
+                    setState(() {
+                      isAPICallProcess = false;
+                    });
 
-              APIService.saveSessions(sessionsModel!, true).then(
-                (response) {
-                  setState(() {
-                    isAPICallProcess = false;
-                  });
+                    if (response) {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/', (route) => false);
+                    } else {
+                      FormHelper.showSimpleAlertDialog(
+                        context,
+                        Config.appName,
+                        "Error Occure",
+                        "OK",
+                        () {
+                          Navigator.of(context).pop();
+                        },
+                      );
+                    }
+                  },
+                );
+              } else {
+                APIService.saveSessions(sessionsModel!, true).then(
+                  (response) {
+                    setState(() {
+                      isAPICallProcess = false;
+                    });
 
-                  if (response) {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, '/', (route) => false);
-                  } else {
-                    FormHelper.showSimpleAlertDialog(
-                      context,
-                      Config.appName,
-                      "Error Occure",
-                      "OK",
-                      () {
-                        Navigator.of(context).pop();
-                      },
-                    );
-                  }
-                },
-              );
+                    if (response) {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/', (route) => false);
+                    } else {
+                      FormHelper.showSimpleAlertDialog(
+                        context,
+                        Config.appName,
+                        "Error Occure",
+                        "OK",
+                        () {
+                          Navigator.of(context).pop();
+                        },
+                      );
+                    }
+                  },
+                );
+              }
             }
           },
           child: Text('Salvar'),
@@ -121,7 +149,7 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
                 return null;
               },
               (onSavedVal) => {
-                widget.sessionModel?.date = onSavedVal,
+                sessionsModel?.date = onSavedVal,
               },
               borderColor: Colors.black,
               borderFocusColor: Colors.black,
@@ -144,7 +172,7 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
                 return null;
               },
               (onSavedVal) => {
-                widget.sessionModel?.timeDay = onSavedVal,
+                sessionsModel?.timeDay = onSavedVal,
               },
               initialValue: widget.sessionModel?.timeDay ?? "",
               borderColor: Colors.black,

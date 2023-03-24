@@ -46,13 +46,8 @@ class _MovieListState extends State<MovieList> {
         child: Container(height: 50.0),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return SessionsAddEditDialog(sessionModel: sessionModel);
-            },
-          );
+        onPressed: () {
+          Navigator.pushNamed(context, "/add-movie");
         },
         child: const Icon(Icons.add),
         backgroundColor: Colors.red[900],
