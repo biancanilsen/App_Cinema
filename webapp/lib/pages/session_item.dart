@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_application/pages/session_add_edit.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
+import 'package:snippet_coder_utils/ProgressHUD.dart';
 import '../config.dart';
 import '../models/sessions_model.dart';
 import 'package:intl/intl.dart';
@@ -11,13 +12,13 @@ import 'package:intl/intl.dart';
 import '../services/api_service.dart';
 
 class SessionItem extends StatefulWidget {
-  final SessionsModel? model;
+  final SessionsModel? sessionsModel;
 
   // const SessionItem({super.key, required sessionsModel});
 
   SessionItem({
     Key? key,
-    this.model,
+    this.sessionsModel,
   }) : super(key: key);
 
   @override
@@ -48,12 +49,6 @@ class _SessionItemState extends State<SessionItem> {
       clipBehavior: Clip.hardEdge,
       child: InkWell(
         splashColor: Colors.blue.withAlpha(30),
-        // onTap: () {
-        //   Navigator.of(context).pushNamed(
-        //     '/sessions-movie',
-        //     arguments: {'movieModel': widget.model},
-        //   );
-        // },
         child: Container(
           width: 200,
           height: 85,
@@ -68,12 +63,12 @@ class _SessionItemState extends State<SessionItem> {
   }
 
   Widget sessionCardItem(context) {
-    String formattedDate = formatDate(widget.model!.date!);
+    String formattedDate = formatDate(widget.sessionsModel!.date!);
     return Card(
       child: ListTile(
         title: Text("Data: $formattedDate"),
         subtitle: Text(
-          "Horário: ${widget.model!.timeDay}",
+          "Horário: ${widget.sessionsModel!.timeDay}",
         ),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
@@ -84,7 +79,12 @@ class _SessionItemState extends State<SessionItem> {
                 color: Colors.green,
               ),
               onPressed: () async {
-                await showInformationDialog(context);
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return SessionsAddEditDialog();
+                  },
+                );
               },
             ),
             IconButton(
@@ -101,35 +101,6 @@ class _SessionItemState extends State<SessionItem> {
             ),
           ],
         ),
-
-        // trailing: Padding(
-        //   padding: const EdgeInsets.only(top: 50),
-        //   child: Row(
-        //     mainAxisSize: MainAxisSize.min,
-        //     children: [
-        //       IconButton(
-        //         icon: const Icon(Icons.edit, color: Colors.green),
-        //         tooltip: 'Increase volume by 10',
-        //         onPressed: () {
-        //           Navigator.of(context).pushNamed(
-        //             '/edit-session',
-        //             // arguments: {'model': widget.model},
-        //           );
-        //         },
-        //       ),
-        //       IconButton(
-        //         icon: const Icon(Icons.delete_sweep, color: Colors.red),
-        //         tooltip: 'Increase volume by 10',
-        //         onPressed: () {
-        //           Navigator.of(context).pushNamed(
-        //             '/edit-session',
-        //             // arguments: {'model': widget.model},
-        //           );
-        //         },
-        //       ),
-        //     ],
-        //   ),
-        // ),
       ),
     );
   }
@@ -138,7 +109,6 @@ class _SessionItemState extends State<SessionItem> {
     return await showDialog(
       context: context,
       builder: (context) {
-        bool isChecked = false;
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(

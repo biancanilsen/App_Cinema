@@ -203,13 +203,10 @@ class APIService {
     }
   }
 
-  static Future<bool> updteSessions(
-    SessionsModel model,
-  ) async {
+  static Future<bool> updteSessions(model) async {
     var createSessionURL = Config.createSessionURL;
 
-    var url =
-        Uri.http(Config.apiURL, createSessionURL + "/" + model.id.toString());
+    var url = Uri.http(Config.apiURL, createSessionURL + "/" + model);
     debugPrint('url: $url');
 
     Map data;

@@ -222,7 +222,7 @@ class _MovieSessionsState extends State<MovieSessions> {
               itemCount: sessions.length,
               itemBuilder: (context, index) {
                 return SessionItem(
-                  model: sessions[index],
+                  sessionsModel: sessions[index],
                 );
               },
             ),
