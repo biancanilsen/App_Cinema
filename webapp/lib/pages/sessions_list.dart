@@ -113,7 +113,8 @@ class _SessionsListState extends State<SessionsList> {
               scrollDirection: Axis.vertical,
               itemCount: sessions.length,
               itemBuilder: (context, index) {
-                return SessionItem(sessionsModel: sessions[index]);
+                return SessionItem(
+                    sessionsModel: sessions[index], movieId: movieModel?.id);
               },
             ),
           ])

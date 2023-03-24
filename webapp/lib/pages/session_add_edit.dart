@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 
@@ -8,10 +9,8 @@ import '../models/sessions_model.dart';
 import '../services/api_service.dart';
 
 class SessionsAddEditDialog extends StatefulWidget {
-  const SessionsAddEditDialog({Key? key, this.id, this.isEdit})
-      : super(key: key);
-  final String? id;
-  final bool isEdit = false;
+  const SessionsAddEditDialog({Key? key, this.sessionModel}) : super(key: key);
+  final SessionsModel? sessionModel;
 
   @override
   State<SessionsAddEditDialog> createState() => _SessionsAddEditDialogState();
@@ -21,16 +20,19 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
   static final GlobalKey<FormState> globalKey = GlobalKey<FormState>();
   bool isAPICallProcess = false;
   SessionsModel? sessionsModel;
-  String id = "";
+  // late final String id;
+
+  String formatDate(String dateStr) {
+    DateTime date = DateTime.parse(dateStr);
+    String formattedDate = DateFormat('dd/MM/yyyy').format(date);
+
+    return formattedDate;
+  }
 
   @override
   void initState() {
     super.initState();
     sessionsModel = SessionsModel();
-    debugPrint(this.id);
-    if (this.isEdit == true) {
-      getData(id);
-    }
   }
 
   @override
@@ -79,9 +81,10 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
     );
   }
 
-  getData(String id) {
-    sessionsModel = APIService.getSessionsEdit(id) as SessionsModel?;
-  }
+  // getData(String id) async {
+  //   sessionsModel = await APIService.getSessionsEdit(id) as SessionsModel?;
+  //   return sessionsModel;
+  // }
 
   bool vaidateAndSave() {
     final form = globalKey.currentState;
@@ -93,6 +96,10 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
   }
 
   Widget sessionForm() {
+    String? formattedDate;
+    if (widget.sessionModel!.date != null || widget.sessionModel!.date != "") {
+      formattedDate = formatDate(widget.sessionModel!.date!);
+    }
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -102,7 +109,7 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
             padding: const EdgeInsets.only(bottom: 10, top: 30),
             child: FormHelper.inputFieldWidget(
               context,
-              initialValue: sessionsModel?.date ?? "",
+              initialValue: formattedDate ?? "",
               "date",
               "Data",
               (onValidateVal) {

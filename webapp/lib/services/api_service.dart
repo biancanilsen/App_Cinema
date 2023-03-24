@@ -168,27 +168,27 @@ class APIService {
     }
   }
 
-  static Future<SessionsModel?> getSessionsEdit(id) async {
-    Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
-    // SessionsModel sessionsModel;
+  // static Future<SessionsModel?> getSessionsEdit(id) async {
+  //   Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
+  //   // SessionsModel sessionsModel;
 
-    var url = Uri.http(Config.apiURL, Config.sessionGetURL + "/" + id);
+  //   var url = Uri.http(Config.apiURL, Config.sessionGetURL + "/" + id);
 
-    debugPrint('url: $url');
+  //   debugPrint('url: $url');
 
-    var response = await client.get(url, headers: requestHeaders);
-    debugPrint('response: $response');
+  //   var response = await client.get(url, headers: requestHeaders);
+  //   debugPrint('response: $response');
 
-    if (response.statusCode == 200) {
-      SessionsModel _sessionsModel =
-          SessionsModel.fromJson(response.body as Map<String, dynamic>);
-      debugPrint('_sessionsModel: $_sessionsModel');
+  //   if (response.statusCode == 200) {
+  //     SessionsModel _sessionsModel =
+  //         SessionsModel.toJson(response.body);
+  //     debugPrint('_sessionsModel: $_sessionsModel');
 
-      return await _sessionsModel;
-    } else {
-      return null;
-    }
-  }
+  //     return await _sessionsModel;
+  //   } else {
+  //     return null;
+  //   }
+  // }
 
   static Future<bool> saveSessions(
     SessionsModel model,

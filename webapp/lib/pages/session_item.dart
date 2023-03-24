@@ -13,7 +13,7 @@ import 'package:intl/intl.dart';
 import '../services/api_service.dart';
 
 class SessionItem extends StatefulWidget {
-  final SessionsModel? sessionsModel;
+  late SessionsModel? sessionsModel;
   final String? movieId;
 
   // const SessionItem({super.key, required sessionsModel});
@@ -62,6 +62,8 @@ class _SessionItemState extends State<SessionItem> {
   }
 
   Widget sessionCardItem(context) {
+    debugPrint(widget.sessionsModel!.id);
+
     String formattedDate = formatDate(widget.sessionsModel!.date!);
     return Card(
       child: ListTile(
@@ -81,7 +83,8 @@ class _SessionItemState extends State<SessionItem> {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    return SessionsAddEditDialog(id: sessionsModel!.id);
+                    return SessionsAddEditDialog(
+                        sessionModel: widget.sessionsModel);
                   },
                 );
               },
