@@ -170,12 +170,18 @@ class APIService {
 
   static Future<bool> saveSessions(
     SessionsModel model,
+    bool isEditMode,
   ) async {
     var createSessionURL = Config.createSessionURL;
 
+    if (isEditMode) {
+      createSessionURL = createSessionURL + "/" + model.id.toString();
+    }
     var url = Uri.http(Config.apiURL, createSessionURL);
     debugPrint('url: $url');
 
+    var requestMethod = isEditMode ? "PUT" : "POST";
+
     Map data;
     var body;
     var response;
@@ -183,47 +189,16 @@ class APIService {
     data = {
       'date': model.date,
       'timeDay': model.timeDay,
-      'movieId': model.movieId,
     };
     body = json.encode(data);
-    debugPrint('data: $url');
-    // }
 
-    response = await http.post(url,
-        headers: {"Content-Type": "application/json"}, body: body);
-
-    debugPrint('response $response');
-
-    if (response.statusCode == 201 || response.statusCode == 201) {
-      debugPrint('response $response.statusCode');
-      return true;
+    if (isEditMode == true) {
+      response = await http.put(url,
+          headers: {"Content-Type": "application/json"}, body: body);
     } else {
-      debugPrint('response $response.statusCode');
-      return false;
+      response = await http.post(url,
+          headers: {"Content-Type": "application/json"}, body: body);
     }
-  }
-
-  static Future<bool> updteSessions(model) async {
-    var createSessionURL = Config.createSessionURL;
-
-    var url = Uri.http(Config.apiURL, createSessionURL + "/" + model);
-    debugPrint('url: $url');
-
-    Map data;
-    var body;
-    var response;
-
-    data = {
-      'date': model.date,
-      'timeDay': model.timeDay,
-      'movieId': model.movieId,
-    };
-    body = json.encode(data);
-    debugPrint('data: $url');
-    // }
-
-    response = await http.put(url,
-        headers: {"Content-Type": "application/json"}, body: body);
 
     debugPrint('response $response');
 
