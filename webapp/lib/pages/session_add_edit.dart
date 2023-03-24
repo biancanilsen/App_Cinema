@@ -20,12 +20,13 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
   static final GlobalKey<FormState> globalKey = GlobalKey<FormState>();
   bool isAPICallProcess = false;
   SessionsModel? sessionsModel;
+  String? formattedDate;
+
   // late final String id;
 
   String formatDate(String dateStr) {
     DateTime date = DateTime.parse(dateStr);
     String formattedDate = DateFormat('dd/MM/yyyy').format(date);
-
     return formattedDate;
   }
 
@@ -33,6 +34,11 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
   void initState() {
     super.initState();
     sessionsModel = SessionsModel();
+    if (widget.sessionModel?.date == null) {
+      formattedDate = null;
+    } else {
+      formattedDate = formatDate(widget.sessionModel!.date!);
+    }
   }
 
   @override
@@ -96,10 +102,6 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
   }
 
   Widget sessionForm() {
-    String? formattedDate;
-    if (widget.sessionModel!.date != null || widget.sessionModel!.date != "") {
-      formattedDate = formatDate(widget.sessionModel!.date!);
-    }
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -109,7 +111,7 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
             padding: const EdgeInsets.only(bottom: 10, top: 30),
             child: FormHelper.inputFieldWidget(
               context,
-              initialValue: formattedDate ?? "",
+              initialValue: (formattedDate != null) ? formattedDate! : "",
               "date",
               "Data",
               (onValidateVal) {
@@ -119,7 +121,7 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
                 return null;
               },
               (onSavedVal) => {
-                sessionsModel?.date = onSavedVal,
+                widget.sessionModel?.date = onSavedVal,
               },
               borderColor: Colors.black,
               borderFocusColor: Colors.black,
@@ -142,9 +144,9 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
                 return null;
               },
               (onSavedVal) => {
-                sessionsModel?.timeDay = onSavedVal,
+                widget.sessionModel?.timeDay = onSavedVal,
               },
-              initialValue: sessionsModel?.timeDay ?? "",
+              initialValue: widget.sessionModel?.timeDay ?? "",
               borderColor: Colors.black,
               borderFocusColor: Colors.black,
               textColor: Colors.black,
