@@ -24,31 +24,13 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
   void initState() {
     super.initState();
     sessionsModel = SessionsModel();
-    // id = sessionsModel.id;
-
-    // Future.delayed(Duration.zero, () {
-    //   if (ModalRoute.of(context)?.settings.arguments != null) {
-    //     final Map arguments = ModalRoute.of(context)?.settings.arguments as Map;
-    //     movieModel = arguments["model"];
-    //     isEditMode = true;
-    //     print(movieModel?.classification);
-    //     setState(() {});
-    //   }
-    // });
   }
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text('Sessão'),
-      content:
-          //  ProgressHUD(
-          // inAsyncCall: isAPICallProcess,
-          // opacity: .3,
-          // key: UniqueKey(),
-
-          // ),
-          Form(
+      content: Form(
         key: globalKey,
         child: sessionForm(),
       ),
@@ -56,7 +38,6 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
         TextButton(
           onPressed: () async {
             if (vaidateAndSave()) {
-              //API Service
               setState(() {
                 isAPICallProcess = true;
               });

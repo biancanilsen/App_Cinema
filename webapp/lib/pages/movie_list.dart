@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_application/pages/session_add_edit.dart';
 import 'package:flutter_application/services/api_service.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 
@@ -44,8 +45,13 @@ class _MovieListState extends State<MovieList> {
         child: Container(height: 50.0),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, "/add-movie");
+        onPressed: () async {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return SessionsAddEditDialog();
+            },
+          );
         },
         child: const Icon(Icons.add),
         backgroundColor: Colors.red[900],
