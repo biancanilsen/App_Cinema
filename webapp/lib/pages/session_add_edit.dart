@@ -8,7 +8,10 @@ import '../models/sessions_model.dart';
 import '../services/api_service.dart';
 
 class SessionsAddEditDialog extends StatefulWidget {
-  const SessionsAddEditDialog({Key? key}) : super(key: key);
+  const SessionsAddEditDialog({Key? key, this.id, this.isEdit})
+      : super(key: key);
+  final String? id;
+  final bool isEdit = false;
 
   @override
   State<SessionsAddEditDialog> createState() => _SessionsAddEditDialogState();
@@ -24,6 +27,10 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
   void initState() {
     super.initState();
     sessionsModel = SessionsModel();
+    debugPrint(this.id);
+    if (this.isEdit == true) {
+      getData(id);
+    }
   }
 
   @override
@@ -42,7 +49,7 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
                 isAPICallProcess = true;
               });
 
-              APIService.updteSessions(sessionsModel?.id).then(
+              APIService.saveSessions(sessionsModel!, true).then(
                 (response) {
                   setState(() {
                     isAPICallProcess = false;
@@ -70,6 +77,10 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
         ),
       ],
     );
+  }
+
+  getData(String id) {
+    sessionsModel = APIService.getSessionsEdit(id) as SessionsModel?;
   }
 
   bool vaidateAndSave() {

@@ -6,6 +6,7 @@ import 'package:flutter_application/pages/session_add_edit.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 import '../config.dart';
+import '../models/movie_model.dart';
 import '../models/sessions_model.dart';
 import 'package:intl/intl.dart';
 
@@ -13,13 +14,11 @@ import '../services/api_service.dart';
 
 class SessionItem extends StatefulWidget {
   final SessionsModel? sessionsModel;
+  final String? movieId;
 
   // const SessionItem({super.key, required sessionsModel});
 
-  SessionItem({
-    Key? key,
-    this.sessionsModel,
-  }) : super(key: key);
+  SessionItem({Key? key, this.sessionsModel, this.movieId}) : super(key: key);
 
   @override
   State<SessionItem> createState() => _SessionItemState();
@@ -82,7 +81,7 @@ class _SessionItemState extends State<SessionItem> {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    return SessionsAddEditDialog();
+                    return SessionsAddEditDialog(id: sessionsModel!.id);
                   },
                 );
               },
@@ -159,7 +158,7 @@ class _SessionItemState extends State<SessionItem> {
                               isAPICallProcess = true;
                             });
 
-                            APIService.updteSessions(sessionsModel!).then(
+                            APIService.saveSessions(sessionsModel!, false).then(
                               (response) {
                                 setState(() {
                                   isAPICallProcess = false;
