@@ -15,7 +15,7 @@ Projeto de CRUD utilizando a arquitetura MVC, com Flutter sendo a View e uma API
 _**Com o filme criado, é possível:**_
 
 -   _Listar todos os filmes;_
--   _Criar sessões em cada filme, inserindo a data e o horário da sessão;
+-   Criar sessões em cada filme, inserindo a data e o horário da sessão;
 
 ## Tecnologias usadas
 
