@@ -34,7 +34,7 @@ export class HourlyService {
 
     async findByMovie(id: string) {
         try {
-            return await this.hourlyRepository.query(`select id, date, "timeDay", "movieId"  from hourly_entity where "movieId" = '${id}' order by  date ASC, "timeDay" DESC`)
+            return await this.hourlyRepository.query(`select id, date, "timeDay", "movieId"  from hourly_entity where "movieId" = '${id}' and "deletedAt" is null order by date ASC, "timeDay" DESC`)
         } catch (e) {
             console.log(e)
             throw new NotFoundException();
