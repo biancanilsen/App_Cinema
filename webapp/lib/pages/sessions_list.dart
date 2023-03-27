@@ -114,7 +114,22 @@ class _SessionsListState extends State<SessionsList> {
               itemCount: sessions.length,
               itemBuilder: (context, index) {
                 return SessionItem(
-                    sessionsModel: sessions[index], movieId: movieModel?.id);
+                  sessionsModel: sessions[index],
+                  movieId: movieModel?.id,
+                  onDelete: (SessionsModel sessionsModel) {
+                    debugPrint('sessionsModelCerto $sessionsModel');
+                    setState(() {
+                      isApiCallProcess = true;
+                    });
+
+                    APIService.deleteSessions(sessionsModel.id)
+                        .then((response) {
+                      setState(() {
+                        isApiCallProcess = false;
+                      });
+                    });
+                  },
+                );
               },
             ),
           ])

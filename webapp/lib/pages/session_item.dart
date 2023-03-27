@@ -15,10 +15,12 @@ import '../services/api_service.dart';
 class SessionItem extends StatefulWidget {
   late SessionsModel? sessionsModel;
   final String? movieId;
+  final Function? onDelete;
 
   // const SessionItem({super.key, required sessionsModel});
 
-  SessionItem({Key? key, this.sessionsModel, this.movieId}) : super(key: key);
+  SessionItem({Key? key, this.sessionsModel, this.movieId, this.onDelete})
+      : super(key: key);
 
   @override
   State<SessionItem> createState() => _SessionItemState();
@@ -95,10 +97,7 @@ class _SessionItemState extends State<SessionItem> {
                 color: Colors.red,
               ),
               onPressed: () {
-                Navigator.of(context).pushNamed(
-                  '/edit-session',
-                  // arguments: {'model': widget.model},
-                );
+                widget.onDelete!(widget.sessionsModel);
               },
             ),
           ],
