@@ -150,6 +150,7 @@ class APIService {
   static Future<List<SessionsModel>?> getSessions(movieId) async {
     Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
     // SessionsModel sessionsModel;
+    print(movieId);
 
     var url = Uri.http(Config.apiURL, Config.sessionURL + "/" + movieId);
 

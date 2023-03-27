@@ -14,8 +14,6 @@ import 'package:flutter/foundation.dart';
 import '../config.dart';
 
 class SessionsList extends StatefulWidget {
-  // const SessionsList({super.key});
-  // pesquisar
   const SessionsList({Key? key}) : super(key: key);
 
   @override
@@ -36,7 +34,6 @@ class _SessionsListState extends State<SessionsList> {
     super.initState();
     movieModel = MovieModel();
     sessionsModel = SessionsModel();
-
     Future.delayed(Duration.zero, () {
       if (ModalRoute.of(context)?.settings.arguments != null) {
         final Map arguments = ModalRoute.of(context)?.settings.arguments as Map;

@@ -17,8 +17,6 @@ class SessionItem extends StatefulWidget {
   final String? movieId;
   final Function? onDelete;
 
-  // const SessionItem({super.key, required sessionsModel});
-
   SessionItem({Key? key, this.sessionsModel, this.movieId, this.onDelete})
       : super(key: key);
 
@@ -30,7 +28,6 @@ class _SessionItemState extends State<SessionItem> {
   static final GlobalKey<FormState> globalKey = GlobalKey<FormState>();
   bool isAPICallProcess = false;
   SessionsModel? sessionsModel;
-  // final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _dateEditingController = TextEditingController();
   final TextEditingController _hourlyEditingController =
       TextEditingController();
