@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import '../models/imageModel.dart';
-import '../models/movie-model.dart';
+import '../models/image_model.dart';
+import '../models/movie_model.dart';
+import '../models/sessions_model.dart';
 import '../config.dart';
 import 'package:flutter/foundation.dart';
 
@@ -134,6 +135,96 @@ class APIService {
     Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
 
     var url = Uri.http(Config.apiURL, Config.movieURL + "/" + movieId);
+    debugPrint('url: $url');
+
+    var response = await client.delete(url, headers: requestHeaders);
+    debugPrint('response: $response');
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  static Future<List<SessionsModel>?> getSessions(movieId) async {
+    Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
+    // SessionsModel sessionsModel;
+
+    var url = Uri.http(Config.apiURL, Config.sessionURL + "/" + movieId);
+
+    debugPrint('url: $url');
+
+    var response = await client.get(url, headers: requestHeaders);
+    debugPrint('response: $response');
+
+    if (response.statusCode == 200) {
+      List<SessionsModel> _sessionsModel = sessionsFromJson(response.body);
+      debugPrint('_sessionsModel: $_sessionsModel');
+
+      return await _sessionsModel;
+    } else {
+      return null;
+    }
+  }
+
+  static Future<bool> saveSessions(
+    SessionsModel model,
+    bool isEditMode,
+  ) async {
+    var createSessionURL = Config.createSessionURL;
+
+    if (isEditMode) {
+      createSessionURL = createSessionURL + "/" + model.id.toString();
+    }
+    var url = Uri.http(Config.apiURL, createSessionURL);
+    debugPrint('url: $url');
+
+    var requestMethod = isEditMode ? "PUT" : "POST";
+
+    Map data;
+    var body;
+    var response;
+
+    if (isEditMode == true) {
+      data = {
+        'date': model.date,
+        'timeDay': model.timeDay,
+      };
+
+      body = json.encode(data);
+
+      response = await http.put(url,
+          headers: {"Content-Type": "application/json"}, body: body);
+    } else {
+      data = {
+        'date': model.date,
+        'timeDay': model.timeDay,
+        'Movie': {'id': model.movieId}
+      };
+
+      body = json.encode(data);
+
+      response = await http.post(url,
+          headers: {"Content-Type": "application/json"}, body: body);
+    }
+
+    debugPrint('response $response');
+
+    if (response.statusCode == 201 || response.statusCode == 200) {
+      debugPrint('response $response.statusCode');
+      return true;
+    } else {
+      debugPrint('response $response.statusCode');
+      return false;
+    }
+  }
+
+  static Future<bool> deleteSessions(sessionId) async {
+    Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
+
+    var url =
+        Uri.http(Config.apiURL, Config.createSessionURL + "/" + sessionId);
     debugPrint('url: $url');
 
     var response = await client.delete(url, headers: requestHeaders);

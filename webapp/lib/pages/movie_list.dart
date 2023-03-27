@@ -2,11 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_application/services/api-service.dart';
+import 'package:flutter_application/models/sessions_model.dart';
+import 'package:flutter_application/pages/session_add_edit.dart';
+import 'package:flutter_application/services/api_service.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 
-import '../models/movie-model.dart';
-import 'movie-item.dart';
+import '../models/movie_model.dart';
+import 'movie_item.dart';
 
 class MovieList extends StatefulWidget {
   const MovieList({Key? key}) : super(key: key);
@@ -17,7 +19,7 @@ class MovieList extends StatefulWidget {
 
 class _MovieListState extends State<MovieList> {
   bool isAPICallProcess = false;
-
+  SessionsModel? sessionModel;
   @override
   void initState() {
     super.initState();

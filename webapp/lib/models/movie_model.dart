@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter_application/models/imageModel.dart';
-
 List<MovieModel> moviesFromJson(String str) =>
     List<MovieModel>.from(json.decode(str).map((x) => MovieModel.fromJson(x)));
 
@@ -28,37 +26,25 @@ class MovieModel {
   });
 
   MovieModel.fromJson(Map<String, dynamic> json) {
-    // ImageModel? imageModel;
     id = json["id"];
     name = json["name"];
     classification = json["classification"];
     type = json["type"];
     duration = json["duration"];
     room = json["room"];
-    //passar o image model aqui
-    // path = json["path"];
     path = json["path"];
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data["id"] = id;
-    _data["name"] = name;
-    _data["classification"] = classification;
-    _data["type"] = type;
-    _data["duration"] = duration;
-    _data["room"] = room;
-    _data["path"] = path;
-    // /ver sobre correlação no flutter
+    final data = <String, dynamic>{};
+    data["id"] = id;
+    data["name"] = name;
+    data["classification"] = classification;
+    data["type"] = type;
+    data["duration"] = duration;
+    data["room"] = room;
+    data["path"] = path;
 
-    //aqui retornar o imagemodel from json:
-    //return ImageModel(
-    //   originalname: json['originalname'],
-    //   filename: json['filename'],
-    // );
-
-    // _data["path"] = path;
-
-    return _data;
+    return data;
   }
 }

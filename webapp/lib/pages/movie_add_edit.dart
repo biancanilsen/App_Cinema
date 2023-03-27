@@ -1,16 +1,16 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
+// import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
-import 'package:snippet_coder_utils/hex_color.dart';
+// import 'package:snippet_coder_utils/hex_color.dart';
 import 'package:image_picker/image_picker.dart';
 import '../config.dart';
-import '../models/imageModel.dart';
-import '../models/movie-model.dart';
-import '../services/api-service.dart';
+import '../models/image_model.dart';
+import '../models/movie_model.dart';
+import '../services/api_service.dart';
 import 'package:flutter/foundation.dart';
 
 class MovieAddEdit extends StatefulWidget {
@@ -28,6 +28,7 @@ class _MovieAddEditState extends State<MovieAddEdit> {
   bool isImageSalected = false;
   bool newImage = false;
   String fileName = "";
+  String movieId = "";
 
   @override
   void initState() {
@@ -150,49 +151,49 @@ class _MovieAddEditState extends State<MovieAddEdit> {
               ),
               child: SizedBox(
                 height: 50,
-                child: DropdownButtonFormField(
-                  value: movieModel?.classification,
-                  hint: const Text('Classificação'),
-                  style: TextStyle(
-                    color: Colors.grey[800],
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 2.0, left: 6, right: 4),
+                  child: DropdownButtonFormField(
+                    value: movieModel?.classification,
+                    hint: const Text('Classificação'),
+                    style: TextStyle(
+                      color: Colors.grey[900],
+                      fontSize: 16.0,
+                    ),
+                    decoration: const InputDecoration(),
+                    onChanged: (newValue) {
+                      setState(() {
+                        movieModel?.classification = newValue as int;
+                      });
+                    },
+                    dropdownColor: Colors.white,
+                    items: const [
+                      DropdownMenuItem(
+                        child: Text("Livre"),
+                        value: 0,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("10+"),
+                        value: 1,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("12+"),
+                        value: 2,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("14+"),
+                        value: 3,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("16+"),
+                        value: 4,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("18+"),
+                        value: 5,
+                      ),
+                    ],
                   ),
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                  ),
-                  onChanged: (newValue) {
-                    setState(() {
-                      movieModel?.classification = newValue as int;
-                    });
-                  },
-                  dropdownColor: Colors.white,
-                  items: const [
-                    DropdownMenuItem(
-                      child: Text("Livre"),
-                      value: 0,
-                    ),
-                    DropdownMenuItem(
-                      child: Text("10+"),
-                      value: 1,
-                    ),
-                    DropdownMenuItem(
-                      child: Text("12+"),
-                      value: 2,
-                    ),
-                    DropdownMenuItem(
-                      child: Text("14+"),
-                      value: 3,
-                    ),
-                    DropdownMenuItem(
-                      child: Text("16+"),
-                      value: 4,
-                    ),
-                    DropdownMenuItem(
-                      child: Text("18+"),
-                      value: 5,
-                    ),
-                  ],
                 ),
               ),
             ),
@@ -207,33 +208,33 @@ class _MovieAddEditState extends State<MovieAddEdit> {
               ),
               child: SizedBox(
                 height: 50,
-                child: DropdownButtonFormField(
-                  value: movieModel?.type,
-                  hint: const Text('Tipo'),
-                  style: TextStyle(
-                    color: Colors.grey[800],
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                  ),
-                  onChanged: (newValue) {
-                    setState(() {
-                      movieModel?.type = newValue as int;
-                    });
-                  },
-                  dropdownColor: Colors.white,
-                  items: const [
-                    DropdownMenuItem(
-                      child: Text('Dublado'),
-                      value: 0,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 2.0, left: 6, right: 4),
+                  child: DropdownButtonFormField(
+                    value: movieModel?.type,
+                    hint: const Text('Tipo'),
+                    style: TextStyle(
+                      color: Colors.grey[900],
+                      fontSize: 16.0,
                     ),
-                    DropdownMenuItem(
-                      child: Text('Legendado'),
-                      value: 1,
-                    ),
-                  ],
+                    decoration: const InputDecoration(),
+                    onChanged: (newValue) {
+                      setState(() {
+                        movieModel?.type = newValue as int;
+                      });
+                    },
+                    dropdownColor: Colors.white,
+                    items: const [
+                      DropdownMenuItem(
+                        child: Text('Dublado'),
+                        value: 0,
+                      ),
+                      DropdownMenuItem(
+                        child: Text('Legendado'),
+                        value: 1,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -306,12 +307,6 @@ class _MovieAddEditState extends State<MovieAddEdit> {
     );
   }
 
-  // void _handleDropdownValueChanged(String value) {
-  //   setState(() {
-  //     _selectedValue = value;
-  //   });
-  // }
-
   bool vaidateAndSave() {
     final form = globalKey.currentState;
     if (form!.validate()) {
@@ -342,8 +337,7 @@ class _MovieAddEditState extends State<MovieAddEdit> {
                     child: Image.network(
                       (isEditMode == true && movieModel!.path == "")
                           ? fileName
-                          : "http://192.168.8.14:3000/movie/file/upload/${movieModel!.path!}",
-                      // width: 200,
+                          : "http://172.16.8.73:3000/movie/file/upload/${movieModel!.path!}",
                       height: 180,
                       fit: BoxFit.scaleDown,
                     ),
@@ -352,7 +346,7 @@ class _MovieAddEditState extends State<MovieAddEdit> {
                 child: Image.network(
                   (movieModel!.path == null || movieModel!.path == "")
                       ? "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png"
-                      : "http://192.168.8.14:3000/movie/file/upload/${movieModel!.path!}",
+                      : "http://172.16.8.73:3000/movie/file/upload/${movieModel!.path!}",
                   height: 180,
                   fit: BoxFit.scaleDown,
                 ),
