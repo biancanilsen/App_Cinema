@@ -186,16 +186,25 @@ class APIService {
     var body;
     var response;
 
-    data = {
-      'date': model.date,
-      'timeDay': model.timeDay,
-    };
-    body = json.encode(data);
-
     if (isEditMode == true) {
+      data = {
+        'date': model.date,
+        'timeDay': model.timeDay,
+      };
+
+      body = json.encode(data);
+
       response = await http.put(url,
           headers: {"Content-Type": "application/json"}, body: body);
     } else {
+      data = {
+        'date': model.date,
+        'timeDay': model.timeDay,
+        'Movie': {'id': model.movieId}
+      };
+
+      body = json.encode(data);
+
       response = await http.post(url,
           headers: {"Content-Type": "application/json"}, body: body);
     }
