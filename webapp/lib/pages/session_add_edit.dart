@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
-
 import '../config.dart';
 import '../models/sessions_model.dart';
 import '../services/api_service.dart';
@@ -48,77 +47,81 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      // insetPadding: EdgeInsets.only(top: 320, bottom: 320),
       title: Text('Sessão'),
       content: Form(
         key: globalKey,
         child: sessionForm(),
       ),
       actions: [
-        TextButton(
-          onPressed: () async {
-            if (vaidateAndSave()) {
-              setState(() {
-                isAPICallProcess = true;
-              });
-              if (widget.sessionModel?.id == null) {
-                APIService.saveSessions(sessionsModel!, false).then(
-                  (response) {
-                    setState(() {
-                      isAPICallProcess = false;
-                    });
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: ElevatedButton(
+              onPressed: () async {
+                if (vaidateAndSave()) {
+                  setState(() {
+                    isAPICallProcess = true;
+                  });
+                  if (widget.sessionModel?.id == null) {
+                    APIService.saveSessions(sessionsModel!, false).then(
+                      (response) {
+                        setState(() {
+                          isAPICallProcess = false;
+                        });
 
-                    if (response) {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, '/', (route) => false);
-                    } else {
-                      FormHelper.showSimpleAlertDialog(
-                        context,
-                        Config.appName,
-                        "Error Occure",
-                        "OK",
-                        () {
-                          Navigator.of(context).pop();
-                        },
-                      );
-                    }
-                  },
-                );
-              } else {
-                APIService.saveSessions(sessionsModel!, true).then(
-                  (response) {
-                    setState(() {
-                      isAPICallProcess = false;
-                    });
+                        if (response) {
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, '/', (route) => false);
+                        } else {
+                          FormHelper.showSimpleAlertDialog(
+                            context,
+                            Config.appName,
+                            "Error Occure",
+                            "OK",
+                            () {
+                              Navigator.of(context).pop();
+                            },
+                          );
+                        }
+                      },
+                    );
+                  } else {
+                    APIService.saveSessions(sessionsModel!, true).then(
+                      (response) {
+                        setState(() {
+                          isAPICallProcess = false;
+                        });
 
-                    if (response) {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, '/', (route) => false);
-                    } else {
-                      FormHelper.showSimpleAlertDialog(
-                        context,
-                        Config.appName,
-                        "Error Occure",
-                        "OK",
-                        () {
-                          Navigator.of(context).pop();
-                        },
-                      );
-                    }
-                  },
-                );
-              }
-            }
-          },
-          child: Text('Salvar'),
+                        if (response) {
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, '/', (route) => false);
+                        } else {
+                          FormHelper.showSimpleAlertDialog(
+                            context,
+                            Config.appName,
+                            "Error Occure",
+                            "OK",
+                            () {
+                              Navigator.of(context).pop();
+                            },
+                          );
+                        }
+                      },
+                    );
+                  }
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+              ),
+              child: Text('Salvar'),
+            ),
+          ),
         ),
       ],
     );
   }
-
-  // getData(String id) async {
-  //   sessionsModel = await APIService.getSessionsEdit(id) as SessionsModel?;
-  //   return sessionsModel;
-  // }
 
   bool vaidateAndSave() {
     final form = globalKey.currentState;
@@ -136,8 +139,9 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(bottom: 10, top: 30),
+            padding: const EdgeInsets.only(bottom: 10, top: 10),
             child: FormHelper.inputFieldWidget(
+              // inputFormatters: [maskFormatter],
               context,
               initialValue: (formattedDate != null) ? formattedDate! : "",
               "date",
@@ -146,10 +150,12 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
                 if (onValidateVal.isEmpty) {
                   return 'Data can´t be empty';
                 }
+
                 return null;
               },
               (onSavedVal) => {
-                sessionsModel?.date = onSavedVal,
+                sessionsModel?.date =
+                    DateFormat("MM/dd/yyyy").parse(onSavedVal).toString()
               },
               borderColor: Colors.black,
               borderFocusColor: Colors.black,
@@ -160,7 +166,7 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 10, top: 10),
+            padding: const EdgeInsets.only(top: 10),
             child: FormHelper.inputFieldWidget(
               context,
               "timeDay",
@@ -182,9 +188,6 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
               borderRadius: 10,
               showPrefixIcon: false,
             ),
-          ),
-          const SizedBox(
-            height: 20,
           ),
         ],
       ),

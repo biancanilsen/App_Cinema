@@ -337,7 +337,7 @@ class _MovieAddEditState extends State<MovieAddEdit> {
                     child: Image.network(
                       (isEditMode == true && movieModel!.path == "")
                           ? fileName
-                          : "http://172.16.8.73:3000/movie/file/upload/${movieModel!.path!}",
+                          : "http://172.16.8.14:3000/movie/file/upload/${movieModel!.path!}",
                       height: 180,
                       fit: BoxFit.scaleDown,
                     ),
@@ -346,7 +346,7 @@ class _MovieAddEditState extends State<MovieAddEdit> {
                 child: Image.network(
                   (movieModel!.path == null || movieModel!.path == "")
                       ? "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png"
-                      : "http://172.16.8.73:3000/movie/file/upload/${movieModel!.path!}",
+                      : "http://172.16.8.14:3000/movie/file/upload/${movieModel!.path!}",
                   height: 180,
                   fit: BoxFit.scaleDown,
                 ),
