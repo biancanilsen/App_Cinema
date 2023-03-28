@@ -65,13 +65,13 @@ class _MovieItemState extends State<MovieItem> {
           child: Image.network(
             (widget.model!.path == null || widget.model!.path == "")
                 ? "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png"
-                : "http://172.16.8.14:3000/movie/file/upload/${widget.model!.path}",
+                : "http://192.168.8.38:3000/movie/file/upload/${widget.model!.path}",
             height: 230,
             fit: BoxFit.scaleDown,
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(bottom: 8.0, top: 8.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,

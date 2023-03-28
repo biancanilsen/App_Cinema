@@ -146,6 +146,7 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
               initialValue: (formattedDate != null) ? formattedDate! : "",
               "date",
               "Data",
+              isNumeric: true,
               (onValidateVal) {
                 if (onValidateVal.isEmpty) {
                   return 'Data can´t be empty';
@@ -171,6 +172,7 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
               context,
               "timeDay",
               "Hora",
+              isNumeric: true,
               (onValidateVal) {
                 if (onValidateVal.isEmpty) {
                   return 'Hourly can´t be empty';
