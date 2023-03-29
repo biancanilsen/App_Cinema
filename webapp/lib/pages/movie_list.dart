@@ -67,7 +67,6 @@ class _MovieListState extends State<MovieList> {
           debugPrint('movieList: $movieList');
           return movieList(model.data);
         }
-        // return movieList(model.data);
         return const Center(
           child: CircularProgressIndicator(),
         );

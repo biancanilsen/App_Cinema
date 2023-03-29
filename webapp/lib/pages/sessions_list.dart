@@ -22,9 +22,6 @@ class SessionsList extends StatefulWidget {
 
 class _SessionsListState extends State<SessionsList> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  // final TextEditingController _dateEditingController = TextEditingController();
-  // final TextEditingController _hourlyEditingController =
-  //     TextEditingController();
   bool isApiCallProcess = false;
   MovieModel? movieModel;
   SessionsModel? sessionsModel;

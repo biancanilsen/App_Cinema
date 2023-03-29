@@ -24,7 +24,6 @@ class MyApp extends StatelessWidget {
           '/edit-movie': (context) => const MovieAddEdit(),
           '/sessions-movie': (context) => SessionsList(),
           '/add-session': (context) => SessionsAddEditDialog(),
-          // '/edit-session': (context) => SessionAddEdit(),
         });
   }
 }

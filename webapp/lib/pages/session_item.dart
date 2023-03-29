@@ -117,9 +117,6 @@ class _SessionItemState extends State<SessionItem> {
                     children: [
                       TextFormField(
                         controller: _dateEditingController,
-                        // validator: (value) {
-                        //   return value.isNotEmpty ? null : "Enter any text";
-                        // },
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'Data',
@@ -130,9 +127,6 @@ class _SessionItemState extends State<SessionItem> {
                       ),
                       TextFormField(
                         controller: _hourlyEditingController,
-                        // validator: (value) {
-                        //   return value.isNotEmpty ? null : "Enter any text";
-                        // },
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'Hora',
@@ -152,7 +146,6 @@ class _SessionItemState extends State<SessionItem> {
                         child: const Text('Salvar'),
                         onPressed: () async {
                           if (vaidateAndSave()) {
-                            //API Service
                             setState(() {
                               isAPICallProcess = true;
                             });

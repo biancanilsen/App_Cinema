@@ -47,7 +47,6 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      // insetPadding: EdgeInsets.only(top: 320, bottom: 320),
       title: Text('Sessão'),
       content: Form(
         key: globalKey,
@@ -141,7 +140,6 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
           Padding(
             padding: const EdgeInsets.only(bottom: 10, top: 10),
             child: FormHelper.inputFieldWidget(
-              // inputFormatters: [maskFormatter],
               context,
               initialValue: (formattedDate != null) ? formattedDate! : "",
               "date",
