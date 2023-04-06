@@ -23,8 +23,6 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
   SessionsModel? sessionsModel;
   String? formattedDate;
 
-  // late final String id;
-
   String formatDate(String dateStr) {
     DateTime date = DateTime.parse(dateStr);
     String formattedDate = DateFormat('dd/MM/yyyy').format(date);
@@ -70,8 +68,8 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
                         });
 
                         if (response) {
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, '/', (route) => false);
+                          Navigator.of(context).pop();
+                          setState(() {});
                         } else {
                           FormHelper.showSimpleAlertDialog(
                             context,
@@ -144,7 +142,7 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
               initialValue: (formattedDate != null) ? formattedDate! : "",
               "date",
               "Data",
-              isNumeric: true,
+              // isNumeric: true,
               (onValidateVal) {
                 if (onValidateVal.isEmpty) {
                   return 'Data can´t be empty';
@@ -170,7 +168,7 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
               context,
               "timeDay",
               "Hora",
-              isNumeric: true,
+              // isNumeric: true,
               (onValidateVal) {
                 if (onValidateVal.isEmpty) {
                   return 'Hourly can´t be empty';

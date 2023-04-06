@@ -16,8 +16,10 @@ class SessionItem extends StatefulWidget {
   late SessionsModel? sessionsModel;
   final String? movieId;
   final Function? onDelete;
+  final MovieModel? model;
 
-  SessionItem({Key? key, this.sessionsModel, this.movieId, this.onDelete})
+  SessionItem(
+      {Key? key, this.sessionsModel, this.movieId, this.onDelete, this.model})
       : super(key: key);
 
   @override
@@ -41,19 +43,16 @@ class _SessionItemState extends State<SessionItem> {
 
   @override
   Widget build(BuildContext context) {
+    // setState(() {});
     return Card(
       elevation: 0,
-      margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+      margin: const EdgeInsets.symmetric(horizontal: 2.0, vertical: 0),
       clipBehavior: Clip.hardEdge,
       child: InkWell(
-        splashColor: Colors.blue.withAlpha(30),
+        splashColor: Colors.red.withAlpha(30),
         child: Container(
           width: 200,
           height: 85,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(50),
-          ),
           child: sessionCardItem(context),
         ),
       ),
@@ -62,13 +61,21 @@ class _SessionItemState extends State<SessionItem> {
 
   Widget sessionCardItem(context) {
     debugPrint(widget.sessionsModel!.id);
-
     String formattedDate = formatDate(widget.sessionsModel!.date!);
     return Card(
+      color: Colors.black87,
       child: ListTile(
-        title: Text("Data: $formattedDate"),
+        title: Text(
+          "Data: $formattedDate",
+          style: const TextStyle(
+            color: Colors.white,
+          ),
+        ),
         subtitle: Text(
           "Horário: ${widget.sessionsModel!.timeDay}",
+          style: const TextStyle(
+            color: Colors.white,
+          ),
         ),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
@@ -76,7 +83,7 @@ class _SessionItemState extends State<SessionItem> {
             IconButton(
               icon: const Icon(
                 Icons.edit,
-                color: Colors.green,
+                color: Colors.white,
               ),
               onPressed: () async {
                 showDialog(
@@ -91,7 +98,7 @@ class _SessionItemState extends State<SessionItem> {
             IconButton(
               icon: const Icon(
                 Icons.delete_sweep,
-                color: Colors.red,
+                color: Colors.white,
               ),
               onPressed: () {
                 widget.onDelete!(widget.sessionsModel);
@@ -157,8 +164,15 @@ class _SessionItemState extends State<SessionItem> {
                                 });
 
                                 if (response) {
-                                  Navigator.pushNamedAndRemoveUntil(
-                                      context, '/', (route) => false);
+                                  Navigator.of(context).pushNamed(
+                                    '/sessions-movie',
+                                    arguments: {'movieModel': widget.model},
+                                  );
+                                  // Navigator.pushNamed(
+                                  //         context, '/sessions-movie')
+                                  //     .then((_) => setState(() {}));
+
+                                  Navigator.of(context).pop();
                                 } else {
                                   FormHelper.showSimpleAlertDialog(
                                     context,

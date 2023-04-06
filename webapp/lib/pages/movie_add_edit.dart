@@ -48,6 +48,7 @@ class _MovieAddEditState extends State<MovieAddEdit> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           backgroundColor: Colors.red[900],
           elevation: 0,
@@ -334,7 +335,7 @@ class _MovieAddEditState extends State<MovieAddEdit> {
                     child: Image.network(
                       (isEditMode == true && movieModel!.path == "")
                           ? fileName
-                          : "http://192.168.8.38:3000/movie/file/upload/${movieModel!.path!}",
+                          : "http://172.16.8.65:3000/movie/file/upload/${movieModel!.path!}",
                       height: 180,
                       fit: BoxFit.scaleDown,
                     ),
@@ -343,7 +344,7 @@ class _MovieAddEditState extends State<MovieAddEdit> {
                 child: Image.network(
                   (movieModel!.path == null || movieModel!.path == "")
                       ? "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png"
-                      : "http://192.168.8.38:3000/movie/file/upload/${movieModel!.path!}",
+                      : "http://172.16.8.65:3000/movie/file/upload/${movieModel!.path!}",
                   height: 180,
                   fit: BoxFit.scaleDown,
                 ),

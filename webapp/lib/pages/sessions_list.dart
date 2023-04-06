@@ -77,15 +77,14 @@ class _SessionsListState extends State<SessionsList> {
   }
 
   Widget loadSessions() {
+    setState(() {});
     return FutureBuilder(
       future: APIService.getSessions(movieModel?.id),
       builder: (
         BuildContext context,
         AsyncSnapshot<List<SessionsModel>?> sessionsModel,
       ) {
-        debugPrint('sessionsModel?.movieId: $sessionsModel');
         if (sessionsModel.hasData) {
-          debugPrint('sessionsList: $sessionsList');
           return sessionsList(sessionsModel.data);
         }
 
@@ -96,10 +95,10 @@ class _SessionsListState extends State<SessionsList> {
 
   Widget sessionsList(sessions) {
     return SingleChildScrollView(
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
           Column(mainAxisAlignment: MainAxisAlignment.start, children: [
             ListView.builder(
               shrinkWrap: true,
@@ -111,7 +110,6 @@ class _SessionsListState extends State<SessionsList> {
                   sessionsModel: sessions[index],
                   movieId: movieModel?.id,
                   onDelete: (SessionsModel sessionsModel) {
-                    debugPrint('sessionsModelCerto $sessionsModel');
                     setState(() {
                       isApiCallProcess = true;
                     });
@@ -127,7 +125,9 @@ class _SessionsListState extends State<SessionsList> {
               },
             ),
           ])
-        ]));
+        ],
+      ),
+    );
   }
 
   bool vaidateAndSave() {
