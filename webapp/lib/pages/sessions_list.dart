@@ -21,6 +21,7 @@ class SessionsList extends StatefulWidget {
 }
 
 class _SessionsListState extends State<SessionsList> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool isApiCallProcess = false;
   MovieModel? movieModel;
@@ -43,6 +44,7 @@ class _SessionsListState extends State<SessionsList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text("Sessões"),
         elevation: 0,

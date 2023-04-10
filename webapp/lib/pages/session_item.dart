@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_application/pages/session_add_edit.dart';
@@ -9,8 +10,8 @@ import '../config.dart';
 import '../models/movie_model.dart';
 import '../models/sessions_model.dart';
 import 'package:intl/intl.dart';
-
 import '../services/api_service.dart';
+import 'package:flutter_application/pages/sessions_list.dart';
 
 class SessionItem extends StatefulWidget {
   late SessionsModel? sessionsModel;
@@ -18,9 +19,13 @@ class SessionItem extends StatefulWidget {
   final Function? onDelete;
   final MovieModel? model;
 
-  SessionItem(
-      {Key? key, this.sessionsModel, this.movieId, this.onDelete, this.model})
-      : super(key: key);
+  SessionItem({
+    Key? key,
+    this.sessionsModel,
+    this.movieId,
+    this.onDelete,
+    this.model,
+  }) : super(key: key);
 
   @override
   State<SessionItem> createState() => _SessionItemState();
@@ -30,7 +35,9 @@ class _SessionItemState extends State<SessionItem> {
   static final GlobalKey<FormState> globalKey = GlobalKey<FormState>();
   bool isAPICallProcess = false;
   SessionsModel? sessionsModel;
+  MovieModel? movieModel;
   final TextEditingController _dateEditingController = TextEditingController();
+
   final TextEditingController _hourlyEditingController =
       TextEditingController();
 
@@ -43,7 +50,6 @@ class _SessionItemState extends State<SessionItem> {
 
   @override
   Widget build(BuildContext context) {
-    // setState(() {});
     return Card(
       elevation: 0,
       margin: const EdgeInsets.symmetric(horizontal: 2.0, vertical: 0),
@@ -168,9 +174,7 @@ class _SessionItemState extends State<SessionItem> {
                                     '/sessions-movie',
                                     arguments: {'movieModel': widget.model},
                                   );
-                                  // Navigator.pushNamed(
-                                  //         context, '/sessions-movie')
-                                  //     .then((_) => setState(() {}));
+                                  APIService.getSessions(movieModel?.id);
 
                                   Navigator.of(context).pop();
                                 } else {

@@ -142,7 +142,6 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
               initialValue: (formattedDate != null) ? formattedDate! : "",
               "date",
               "Data",
-              // isNumeric: true,
               (onValidateVal) {
                 if (onValidateVal.isEmpty) {
                   return 'Data can´t be empty';
@@ -152,7 +151,7 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
               },
               (onSavedVal) => {
                 sessionsModel?.date =
-                    DateFormat("MM/dd/yyyy").parse(onSavedVal).toString()
+                    DateFormat("dd/MM/yyyy").parse(onSavedVal).toString()
               },
               borderColor: Colors.black,
               borderFocusColor: Colors.black,
@@ -168,7 +167,6 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
               context,
               "timeDay",
               "Hora",
-              // isNumeric: true,
               (onValidateVal) {
                 if (onValidateVal.isEmpty) {
                   return 'Hourly can´t be empty';
