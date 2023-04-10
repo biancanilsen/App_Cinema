@@ -89,6 +89,7 @@ class _MovieItemState extends State<MovieItem> {
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
+                    fontSize: 15.8,
                   ),
                 ),
               ),
