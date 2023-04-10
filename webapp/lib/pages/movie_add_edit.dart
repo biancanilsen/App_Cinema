@@ -242,7 +242,7 @@ class _MovieAddEditState extends State<MovieAddEdit> {
             child: FormHelper.inputFieldWidget(
               context,
               "duration",
-              "Duração",
+              "Duração em minutos",
               (onValidateVal) {
                 if (onValidateVal.isEmpty) {
                   return 'Duration can´t be empty';
