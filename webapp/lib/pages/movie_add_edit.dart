@@ -48,6 +48,7 @@ class _MovieAddEditState extends State<MovieAddEdit> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           backgroundColor: Colors.red[900],
           elevation: 0,
@@ -59,7 +60,6 @@ class _MovieAddEditState extends State<MovieAddEdit> {
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
             if (vaidateAndSave()) {
-              //API Service
               setState(() {
                 isAPICallProcess = true;
               });
@@ -241,7 +241,7 @@ class _MovieAddEditState extends State<MovieAddEdit> {
             child: FormHelper.inputFieldWidget(
               context,
               "duration",
-              "Duração",
+              "Duração em minutos",
               (onValidateVal) {
                 if (onValidateVal.isEmpty) {
                   return 'Duration can´t be empty';
@@ -334,7 +334,7 @@ class _MovieAddEditState extends State<MovieAddEdit> {
                     child: Image.network(
                       (isEditMode == true && movieModel!.path == "")
                           ? fileName
-                          : "http://192.168.8.38:3000/movie/file/upload/${movieModel!.path!}",
+                          : "http://172.16.8.73:3000/movie/file/upload/${movieModel!.path!}",
                       height: 180,
                       fit: BoxFit.scaleDown,
                     ),
@@ -343,7 +343,7 @@ class _MovieAddEditState extends State<MovieAddEdit> {
                 child: Image.network(
                   (movieModel!.path == null || movieModel!.path == "")
                       ? "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png"
-                      : "http://192.168.8.38:3000/movie/file/upload/${movieModel!.path!}",
+                      : "http://172.16.8.73:3000/movie/file/upload/${movieModel!.path!}",
                   height: 180,
                   fit: BoxFit.scaleDown,
                 ),

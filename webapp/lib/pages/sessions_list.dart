@@ -21,6 +21,7 @@ class SessionsList extends StatefulWidget {
 }
 
 class _SessionsListState extends State<SessionsList> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool isApiCallProcess = false;
   MovieModel? movieModel;
@@ -43,6 +44,7 @@ class _SessionsListState extends State<SessionsList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text("Sessões"),
         elevation: 0,
@@ -65,7 +67,7 @@ class _SessionsListState extends State<SessionsList> {
           showDialog(
             context: context,
             builder: (BuildContext context) {
-              return SessionsAddEditDialog(movieId: movieModel?.id);
+              return SessionsAddEditDialog(movieModel: movieModel);
             },
           );
         },
@@ -77,15 +79,14 @@ class _SessionsListState extends State<SessionsList> {
   }
 
   Widget loadSessions() {
+    setState(() {});
     return FutureBuilder(
       future: APIService.getSessions(movieModel?.id),
       builder: (
         BuildContext context,
         AsyncSnapshot<List<SessionsModel>?> sessionsModel,
       ) {
-        debugPrint('sessionsModel?.movieId: $sessionsModel');
         if (sessionsModel.hasData) {
-          debugPrint('sessionsList: $sessionsList');
           return sessionsList(sessionsModel.data);
         }
 
@@ -96,10 +97,10 @@ class _SessionsListState extends State<SessionsList> {
 
   Widget sessionsList(sessions) {
     return SingleChildScrollView(
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
           Column(mainAxisAlignment: MainAxisAlignment.start, children: [
             ListView.builder(
               shrinkWrap: true,
@@ -111,7 +112,6 @@ class _SessionsListState extends State<SessionsList> {
                   sessionsModel: sessions[index],
                   movieId: movieModel?.id,
                   onDelete: (SessionsModel sessionsModel) {
-                    debugPrint('sessionsModelCerto $sessionsModel');
                     setState(() {
                       isApiCallProcess = true;
                     });
@@ -127,7 +127,9 @@ class _SessionsListState extends State<SessionsList> {
               },
             ),
           ])
-        ]));
+        ],
+      ),
+    );
   }
 
   bool vaidateAndSave() {
