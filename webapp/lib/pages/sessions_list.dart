@@ -67,7 +67,7 @@ class _SessionsListState extends State<SessionsList> {
           showDialog(
             context: context,
             builder: (BuildContext context) {
-              return SessionsAddEditDialog(movieId: movieModel?.id);
+              return SessionsAddEditDialog(movieModel: movieModel);
             },
           );
         },

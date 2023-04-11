@@ -4,14 +4,15 @@ import 'package:intl/intl.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 import '../config.dart';
+import '../models/movie_model.dart';
 import '../models/sessions_model.dart';
 import '../services/api_service.dart';
 
 class SessionsAddEditDialog extends StatefulWidget {
-  const SessionsAddEditDialog({Key? key, this.sessionModel, this.movieId})
+  const SessionsAddEditDialog({Key? key, this.sessionModel, this.movieModel})
       : super(key: key);
   final SessionsModel? sessionModel;
-  final String? movieId;
+  final MovieModel? movieModel;
 
   @override
   State<SessionsAddEditDialog> createState() => _SessionsAddEditDialogState();
@@ -35,7 +36,7 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
     sessionsModel = SessionsModel();
     if (widget.sessionModel?.date == null) {
       formattedDate = null;
-      sessionsModel?.movieId = widget.movieId;
+      sessionsModel?.movieId = widget.movieModel!.id;
     } else {
       sessionsModel?.id = widget.sessionModel?.id;
       formattedDate = formatDate(widget.sessionModel!.date!);
@@ -69,7 +70,12 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
 
                         if (response) {
                           Navigator.of(context).pop();
-                          setState(() {});
+                          setState(() {
+                            Navigator.of(context).pushNamed(
+                              '/sessions-movie',
+                              arguments: {'movieModel': widget.movieModel},
+                            );
+                          });
                         } else {
                           FormHelper.showSimpleAlertDialog(
                             context,
@@ -91,8 +97,13 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
                         });
 
                         if (response) {
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, '/', (route) => false);
+                          Navigator.of(context).pop();
+                          setState(() {
+                            Navigator.of(context).pushNamed(
+                              '/sessions-movie',
+                              arguments: {'movieModel': widget.movieModel},
+                            );
+                          });
                         } else {
                           FormHelper.showSimpleAlertDialog(
                             context,
