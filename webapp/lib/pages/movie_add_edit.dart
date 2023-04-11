@@ -60,7 +60,6 @@ class _MovieAddEditState extends State<MovieAddEdit> {
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
             if (vaidateAndSave()) {
-              //API Service
               setState(() {
                 isAPICallProcess = true;
               });

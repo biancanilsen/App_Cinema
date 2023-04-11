@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application/pages/sessions_list.dart';
 import 'package:intl/intl.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
@@ -71,7 +72,7 @@ class _SessionsAddEditDialogState extends State<SessionsAddEditDialog> {
                         if (response) {
                           Navigator.of(context).pop();
                           setState(() {
-                            Navigator.of(context).pushNamed(
+                            Navigator.of(context).pushReplacementNamed(
                               '/sessions-movie',
                               arguments: {'movieModel': widget.movieModel},
                             );

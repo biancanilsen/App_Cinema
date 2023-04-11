@@ -60,8 +60,6 @@ class _MovieItemState extends State<MovieItem> {
       children: [
         Container(
           alignment: Alignment.center,
-          // height: double.infinity,
-          // margin: const EdgeInsets.all(10),
           width: 150,
           height: 300,
           child: Image.network(
@@ -71,10 +69,7 @@ class _MovieItemState extends State<MovieItem> {
             fit: BoxFit.cover,
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            // fit: BoxFit.cover
-            // width: 150,
           ),
-          // )
         ),
         Padding(
           padding: const EdgeInsets.all(10.0),
