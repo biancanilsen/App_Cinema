@@ -53,12 +53,6 @@ npm run start:dev
 
 ```
 
-> Frontend
-
-```
-
-npm run start
-
 ```
 
 ## Demonstration
