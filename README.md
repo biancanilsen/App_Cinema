@@ -1,7 +1,7 @@
 
 # Projeto  Cinema🎥
 
-## Descrição
+## Description
 
 REST API made with Typescript, in NodeJs with Nest.js, the ORM used is TypeORM and the database Postgres, MVC architecture, containing Models, Controllers and an additional Services layer where are the business rules and Flutter being the View. The unit tests were done with Jest and the API was documented using Swagger.
 
