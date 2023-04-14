@@ -3,37 +3,37 @@
 
 ## Descrição
 
-Projeto de CRUD utilizando a arquitetura MVC, com Flutter sendo a View e uma API Rest em Nest contendo Models, Controllers e uma camada adicional de Services onde estão as regras de negócio.
+REST API made with Typescript, in NodeJs with Nest.js, the ORM used is TypeORM and the database Postgres, MVC architecture, containing Models, Controllers and an additional Services layer where are the business rules and Flutter being the View. The unit tests were done with Jest and the API was documented using Swagger.
 
-### Funcionalidades:
+### Features:
 
--   O usuário pode criar um novo filme informando o nome do filme, a classificação, o tipo, a duração e a sala;
--   O usuário pode fazer o upload de uma foto e adicionar no filme, como cartaz;
--   O usuário editar o filme criado;    
--   O usuário excluir o filme;      
+- The user can create a new movie by entering the movie name, rating, type, duration and room;
+- The user can upload a photo and add it to the movie, as a poster;
+- The user edits the created movie;    
+- The user can delete the movie;          
 
-_**Com o filme criado, é possível:**_
+_**With the film created, it is possible:**_
 
--   _Listar todos os filmes;_
--   Criar sessões em cada filme, inserindo a data e o horário da sessão;
+- _List all the movies;_
+- Create sessions on each movie by entering the date and time of the session;
 
-## Tecnologias usadas
+## Used Technologies
 
 Front-end:
 
-> Desenvolvido usando: Flutter, Material.
+> Developed using: Flutter, Material.
 
 Back-end:
 
-> Desenvolvido usando: Nest, Postgress.
+> Developed using: Nest, Postgress.
 
 
-## Instalando Dependências
+## Installing Dependencies
 
 > Backend cd src api-ab
 
 ```npm install
-Configure o .env seguindo o modelo do arquivo .env.example
+Configure .env following the .env.example template
 
 ```
 
@@ -44,7 +44,7 @@ npm install
 
 ```
 
-## Executando a aplicação
+## Running the Application
 
 > Backend
 
@@ -61,12 +61,6 @@ npm run start
 
 ```
 
-## Demonstração
+## Demonstration
 
 https://user-images.githubusercontent.com/86383966/228341841-e614be13-ffa5-4717-a213-8d157e9c79f9.mp4
-
-
-
-
-
-
